@@ -1,0 +1,102 @@
+# PORT_FORWARD APIs
+
+APIs in the **PORT_FORWARD** category.
+
+## APIs in this category
+
+- `port_map_get` — Get port mapping rules
+- `port_map_add` — Add port mapping rule
+- `port_map_delete` — Delete port mapping rule
+- `ip_bind_get` — Get IP-MAC binding
+- `ip_bind_set` — Set IP-MAC binding
+
+## `port_map_get`
+
+Get port mapping rules
+
+### Parameters
+
+> [page_length=<n>] [page_choose=<n>]
+
+### Returns
+
+> data[](enabled, hostname, wan_name, src_port, dest_ip, dest_port, proto), page_count
+
+## `port_map_add`
+
+Add port mapping rule
+
+### Parameters
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `hostname` | string | Yes | Rule name/description |
+| `proto` | string | Yes | Protocol(s) to forward  
+(Values: tcp | udp | tcp udp | tcp/udp) |
+| `dest_ip` | string | Yes | Destination IP address (internal host)  
+(Format: x.x.x.x) |
+| `dest_port` | integer | Yes | Destination port number  
+(Range: 1-65535) |
+| `src_port` | integer | No | External/WAN port (defaults to dest_port if not specified)  
+(Range: 1-65535) |
+| `wan_name` | string | No | WAN interface name to apply rule on (default: wan) |
+| `enabled` | integer | No | Enable this rule: 0=disabled, 1=enabled (default: 1 if not specified)  
+(Values: 0 | 1) |
+| `map_list` | json_array | No | Batch port mappings for multiple rules |
+| `not_restart_net` | integer | No | Skip firewall restart: 0=restart, 1=skip  
+(Values: 0 | 1) |
+
+### Returns
+
+> code
+
+## `port_map_delete`
+
+Delete port mapping rule
+
+### Parameters
+
+> dest_ip=<ip> dest_port=<port> proto=<tcp|udp|tcp udp> [wan_name=<wan>] [hostname=<name>] [src_port=<port>] [map_list=<json>] [not_restart_net=<0|1>]
+
+### Returns
+
+> code
+
+## `ip_bind_get`
+
+Get IP-MAC binding
+
+### Parameters
+
+None
+
+### Returns
+
+> bindings[]
+
+## `ip_bind_set`
+
+Set IP-MAC binding
+
+### Parameters
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `op` | integer | Yes | Operation: 1=add, 2=edit, 3=delete  
+(Values: 1 | 2 | 3) |
+| `hostname` | string | No | Device name (required for add) |
+| `ip` | string | No | IP address to bind (required for add/edit/delete)  
+(Format: x.x.x.x) |
+| `mac` | string | No | MAC address (required for add/edit/delete)  
+(Format: AA:BB:CC:DD:EE:FF) |
+| `new_hostname` | string | No | New device name (required for edit) |
+| `new_ip` | string | No | New IP address (required for edit)  
+(Format: x.x.x.x) |
+| `new_mac` | string | No | New MAC address (required for edit)  
+(Format: AA:BB:CC:DD:EE:FF) |
+| `arp_sync_switch` | integer | No | Enable ARP binding sync with static leases  
+(Values: 0 | 1) |
+
+### Returns
+
+> code
