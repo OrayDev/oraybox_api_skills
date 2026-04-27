@@ -46,7 +46,7 @@ Set WiFi configuration
 | `pattern` | integer | Yes | SSID mode: 0=single SSID, 1=multi-SSID  
 (Values: 0 | 1) |
 | `country` | string | Yes | Country code for regulatory domain (e.g., CN, US, JP) |
-| `ssid_list` | json_array | Yes | SSID configuration list, contains ssid/pwd/encryption/hidden/isolation/sta_isolation/maxassoc/ft/vlanid/shaping_switch/upload/download/ramode/auth_server/auth_port/auth_secret/nasid |
+| `ssid_list` | json_array | Yes | SSID configuration list. Each element is a dict with ssid/pwd/encryption/hidden/isolation/sta_isolation/maxassoc/ft/vlanid/shaping_switch/upload/download/ramode/auth_server/auth_port/auth_secret/nasid. **Important:** `encryption` value must be chosen from `feature.encryptions` returned by `wifi_get`. For older firmware without `feature`, use `encrypt` instead (deprecated). |
 | `batch_set` | json | No | Batch configure multiple bands (e.g., {\ |
 | `is_restart_wifi` | integer | No | Restart WiFi after set: 0=no, 1=yes (default: delayed restart)  
 (Values: 0 | 1) |
@@ -75,7 +75,7 @@ IMPORTANT USAGE NOTES:
       {
         "ssid": "WiFi-Name",           // SSID name (required)
         "pwd": "password",             // Password (8-63 chars for WPA, empty for open network)
-        "encryption": "psk2",          // Encryption type: none, psk, psk2, psk-mixed, wpa3, sae-mixed
+        "encryption": "psk2+ccmp",     // Encryption type. MUST match one of feature.encryptions from wifi_get
         "hidden": 0,                   // SSID hidden: 0=visible (default), 1=hidden
         "isolation": 0,                // AP/Bridge isolation: 0=off (default), 1=on
         "sta_isolation": 0,            // STA isolation: 0=off (default), 1=on (same BSSID clients cannot communicate)
@@ -96,19 +96,17 @@ IMPORTANT USAGE NOTES:
   Field Descriptions:
     - ssid:           WiFi network name (1-32 characters, required)
     - pwd:            WiFi password (8-63 characters for WPA, required when encryption is not "none")
-    - encryption:     Encryption type, supported values:
-                      * "none"        - Open network, no password required
-                      * "psk"         - WPA-PSK
-                      * "psk2"        - WPA2-PSK (recommended)
-                      * "psk-mixed"   - WPA/WPA2 mixed mode
-                      * "wpa3"        - WPA3-SAE
-                      * "sae-mixed"   - WPA2/WPA3 mixed mode
+    - encryption:     Encryption type. **Must be chosen from `feature.encryptions`** returned by `wifi_get`.
+                      Common values: "none", "psk+ccmp", "psk2+ccmp", "psk-mixed+ccmp".
+                      The exact supported values depend on the hardware/driver.
+                      **Note:** `auth`, `encrypt`, `wpa3` fields in ssid_list are deprecated.
+                      Use `encryption` directly for new code.
     - hidden:         Whether to hide SSID broadcast: 0=visible (default), 1=hidden
     - isolation:      AP/Bridge isolation (br_isolate_mode): 0=off (default), 1=on
                       Isolates clients at bridge level
     - sta_isolation:  STA isolation (isolated): 0=off (default), 1=on
                       Isolates clients under the same BSSID (same SSID)
-                      Note: This is different from standard OpenWrt isolate field, 
+                      Note: This is different from standard OpenWrt isolate field,
                       as mt_dbdc.sh driver reads 'isolated' field specifically
     - maxassoc:       Maximum number of clients allowed to connect (optional)
     - switch:         SSID switch: 0=off, 1=on (default: 1)
@@ -124,20 +122,23 @@ IMPORTANT USAGE NOTES:
     - auth_secret:    RADIUS shared secret (required for WPA2-EAP)
     - nasid:          NAS Identifier for RADIUS (optional for WPA2-EAP)
 
-  Example - Set 2.4G with single SSID:
-    {"_api":"wifi_set","dev":"2.4G","switch":1,"htmode":"HT40","channel":0,"level":3,"pattern":0,"country":"CN","ssid_list":"[{\"ssid\":\"MyWiFi\",\"pwd\":\"12345678\",\"encryption\":\"psk2\"}]"}
+  Compatibility Notes:
+    1. If `wifi_get` response contains `feature` field, use `encryption` in ssid_list.
+    2. If `wifi_get` response does NOT contain `feature` field (older firmware),
+       use deprecated `encrypt` field in ssid_list instead.
+    3. `auth`, `encrypt`, `wpa3` fields are deprecated and may be removed in future.
+
+  Example - Set 2.4G with single SSID (new firmware with feature):
+    {"_api":"wifi_set","dev":"2.4G","switch":1,"htmode":"HT40","channel":0,"level":3,"pattern":0,"country":"CN","ssid_list":"[{\"ssid\":\"MyWiFi\",\"pwd\":\"12345678\",\"encryption\":\"psk2+ccmp\"}]"}
+
+  Example - Set 2.4G with single SSID (older firmware without feature):
+    {"_api":"wifi_set","dev":"2.4G","switch":1,"htmode":"HT40","channel":0,"level":3,"pattern":0,"country":"CN","ssid_list":"[{\"ssid\":\"MyWiFi\",\"pwd\":\"12345678\",\"encrypt\":\"psk2+ccmp\"}]"}
 
   Example - Set 5G with multiple SSIDs:
-    {"_api":"wifi_set","dev":"5G","switch":1,"htmode":"VHT80","channel":0,"level":3,"pattern":1,"country":"CN","ssid_list":"[{\"ssid\":\"MainWiFi\",\"pwd\":\"password1\",\"encryption\":\"psk2\"},{\"ssid\":\"GuestWiFi\",\"pwd\":\"password2\",\"encryption\":\"psk2\",\"isolation\":1}]"}
-
-  Example - Set 5G with traffic shaping (rate limiting):
-    {"_api":"wifi_set","dev":"5G","switch":1,"htmode":"VHT80","channel":0,"level":3,"pattern":0,"country":"CN","ssid_list":"[{\"ssid\":\"LimitedWiFi\",\"pwd\":\"password1\",\"encryption\":\"psk2\",\"shaping_switch\":1,\"upload\":1024,\"download\":2048}]"}
-
-  Example - Set 5G with WPA2-EAP (Enterprise) authentication:
-    {"_api":"wifi_set","dev":"5G","switch":1,"htmode":"VHT80","channel":0,"level":3,"pattern":0,"country":"CN","ssid_list":"[{\"ssid\":\"EnterpriseWiFi\",\"encryption\":\"wpa2\",\"auth_server\":\"10.0.0.1\",\"auth_port\":1812,\"auth_secret\":\"radius_secret\",\"nasid\":\"nas01\"}]"}
+    {"_api":"wifi_set","dev":"5G","switch":1,"htmode":"VHT80","channel":0,"level":3,"pattern":1,"country":"CN","ssid_list":"[{\"ssid\":\"MainWiFi\",\"pwd\":\"password1\",\"encryption\":\"psk2+ccmp\"},{\"ssid\":\"GuestWiFi\",\"pwd\":\"password2\",\"encryption\":\"psk2+ccmp\",\"isolation\":1}]"}
 
   Example - Delete the 2nd SSID (set to empty object):
-    {"_api":"wifi_set","dev":"5G","switch":1,"htmode":"VHT80","channel":0,"level":3,"pattern":1,"country":"CN","ssid_list":"[{\"ssid\":\"MainWiFi\",\"pwd\":\"password1\",\"encryption\":\"psk2\"},{},{\"ssid\":\"GuestWiFi\",\"pwd\":\"password3\",\"encryption\":\"psk2\"}]"
+    {"_api":"wifi_set","dev":"5G","switch":1,"htmode":"VHT80","channel":0,"level":3,"pattern":1,"country":"CN","ssid_list":"[{\"ssid\":\"MainWiFi\",\"pwd\":\"password1\",\"encryption\":\"psk2+ccmp\"},{},{\"ssid\":\"GuestWiFi\",\"pwd\":\"password3\",\"encryption\":\"psk2+ccmp\"}]"}
 ```
 
 ## `wifi_scan_get`
@@ -187,6 +188,31 @@ Disconnect WiFi client
 
 > code
 
+## SDK Version Differences for `wifi_timer` (17.01 vs 21.02)
+
+`17.01` corresponds to firmware 6.x; `21.02` corresponds to firmware 7.x.
+
+> **Note:** `wifi_timer` APIs (`wifi_timer_get`, `wifi_timer_set`) are not listed in the main API docs but exist in the `wifi_timer` package with version-specific implementations.
+
+### `wifi_timer_get`
+
+| Aspect | 17.01 (Firmware 6.x) | 21.02 (Firmware 7.x) |
+|--------|----------------------|----------------------|
+| **Returns** | `enable`, `ssidlist`, **`rules`** (array of `{id, weeks, start, ends, ssids}`) | `enable`, `ssidlist`, **`time_id`**, **`apply`** |
+| **SSID item fields** | `iface`, `ssid`, `band` | `iface`, `ssid`, `band`, **`apply`** (`"1"` if time_group assigned) |
+| **Data source** | `timer_rule` list per iface | `time_group` per iface |
+
+### `wifi_timer_set`
+
+| Aspect | 17.01 (Firmware 6.x) | 21.02 (Firmware 7.x) |
+|--------|----------------------|----------------------|
+| **Key params** | `enable`, `weeks`, `start`, `ends`, `action` (`add`/`modify`/`del`/`reset`), `id` | `enable`, `weeks`, `time_id`, `reload` |
+| **Removed** | `action`, `start`, `ends`, `id` | — |
+| **New** | — | `time_id` (references `group_time` config), `reload` (`"1"` to re-apply) |
+| **Time model** | Inline `start`/`ends`/`weeks` | Indirect via `group_time` (from `group_support` package) |
+| **Cross-day** | Not supported (`start` ≤ `ends`) | Supported (splits into two rules internally) |
+| **Rule ID** | `os.time()` timestamp | `group_time.id` |
+
 ## CLI Examples
 
 Use the script directly from the command line:
@@ -203,8 +229,20 @@ Optional parameters:
 
 ### `wifi_set`
 
+**New firmware (with `feature` in wifi_get response):**
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api wifi_set --param dev=2.4G --param switch=1 --param htmode=<value> --param channel=1 --param level=1 --param pattern=1 --param country=<value> --param 'ssid_list=["value1","value2"]'
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin \
+  --api wifi_set --param dev=2.4G --param switch=1 --param htmode=HT40 \
+  --param channel=0 --param level=3 --param pattern=0 --param country=CN \
+  --param 'ssid_list=[{"ssid":"MyWiFi","pwd":"12345678","encryption":"psk2+ccmp"}]'
+```
+
+**Older firmware (without `feature`):**
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin \
+  --api wifi_set --param dev=2.4G --param switch=1 --param htmode=HT40 \
+  --param channel=0 --param level=3 --param pattern=0 --param country=CN \
+  --param 'ssid_list=[{"ssid":"MyWiFi","pwd":"12345678","encrypt":"psk2+ccmp"}]'
 ```
 
 Optional parameters:

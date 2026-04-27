@@ -33,6 +33,41 @@ Traffic Control Configuration:
     wan_shaping    - Per-WAN interface shaping
 ```
 
+## SDK Version Differences (17.01 vs 21.02)
+
+`17.01` corresponds to firmware 6.x; `21.02` corresponds to firmware 7.x.
+
+### `oraytc_get`
+
+| Aspect | 17.01 (Firmware 6.x) | 21.02 (Firmware 7.x) |
+|--------|----------------------|----------------------|
+| **Top-level** | No `wan_shaping` | `wan_shaping` added (object keyed by WAN name) |
+| **`auto_shaping`** | No `time_group` | `time_group` added |
+| **`shaping_list` items** | `address`, `weekday`, `timestart`, `timestop` | `address`→`ip_group` (fallback), `weekday`/`timestart`/`timestop` **removed**, `combine_shaping` added, `time_group` added |
+| **`group_shaping` items** | `enabled`, `upload`, `download`, `upload_max`, `download_max`, `weekday`, `timestart`, `timestop`, `interface`, `priority` | Only `enabled`, `upload`, `download`, `time_group`, `group_name` |
+
+### `oraytc_set`
+
+| Aspect | 17.01 (Firmware 6.x) | 21.02 (Firmware 7.x) |
+|--------|----------------------|----------------------|
+| **New parameter** | — | `wan_shaping` (JSON object keyed by WAN name) |
+| **`total_shaping`** | Supports `weekday`, `timestart`, `timestop` | `weekday`/`timestart`/`timestop` **removed**, `time_group` added |
+| **`auto_shaping`** | No `time_group` | `time_group` added |
+| **Validation** | Requires at least one of `base`, `total`, `shaping`, `auto_shaping` | Also accepts `wan_shaping` |
+
+### `group_tc_get`
+
+| Aspect | 17.01 (Firmware 6.x) | 21.02 (Firmware 7.x) |
+|--------|----------------------|----------------------|
+| **Return** | `{code, switch, upload, download}` (same) | Same return structure, but internally no longer reads `upload_max`, `download_max`, `interface`, `priority` |
+
+### `group_tc_set`
+
+| Aspect | 17.01 (Firmware 6.x) | 21.02 (Firmware 7.x) |
+|--------|----------------------|----------------------|
+| **`interface`** | Written to UCI if provided | **No longer persisted** |
+| **`priority`** | Written to UCI if provided | **No longer persisted** |
+
 ## `oraytc_set`
 
 Set traffic control configuration
@@ -41,11 +76,11 @@ Set traffic control configuration
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `base` | json | No | Base configuration: {enabled: \ |
+| `base` | json | No | Base configuration: {enabled: "0\|1"} |
 | `total` | json | No | Total shaping config: {enabled, vpn_enabled, upload, download, vpn_upload, vpn_download, ...} |
 | `shaping` | json_array | No | Array of shaping rules |
 | `auto_shaping` | json | No | Auto shaping configuration |
-| `wan_shaping` | json | No | Per-WAN shaping: {wan: {enabled, upload, download}} |
+| `wan_shaping` | json | No | Per-WAN shaping: {wan: {enabled, upload, download, upload_max, download_max}} *(21.02 only)* |
 
 ### Returns
 
@@ -72,7 +107,7 @@ Rate Unit Note (IMPORTANT):
       To limit upload to 2 MB/s: use "16mbps" or "16000kbps"
       For 100M broadband (100Mbps): use "100mbps"
   
-  Shaping Rule JSON Format:
+Shaping Rule JSON Format:
     {
       "enabled": "1",              // Enable this rule
       "upload": "1000kbps",        // Upload bandwidth limit
@@ -88,7 +123,7 @@ Rate Unit Note (IMPORTANT):
       "combine_shaping": "1"       // Combine with other rules
     }
     
-  Total Shaping Fields:
+Total Shaping Fields:
     enabled              - Master switch
     upload/download      - Total bandwidth limits
     vpn_enabled          - Enable VPN traffic shaping
@@ -96,7 +131,7 @@ Rate Unit Note (IMPORTANT):
     remainder_upload/remainder_download - Remainder bandwidth
     time_group           - Time-based control
     
-  Examples:
+Examples:
     Enable traffic control:
       {"_api":"oraytc_set","base":"{\\"enabled\\":\\"1\\"}"}
     
@@ -154,7 +189,7 @@ Set group traffic control (QoS)
 Group Traffic Control:
     Apply QoS rules to entire user groups
     
-  Rate Unit Note (IMPORTANT):
+Rate Unit Note (IMPORTANT):
     TC (traffic control) uses BITS per second, not BYTES per second!
     This is different from common file transfer speed units.
     
@@ -172,14 +207,14 @@ Group Traffic Control:
       To limit upload to 2 MB/s: use "16mbps" or "16000kbps"
       For 100M broadband (100Mbps): use "100mbps"
     
-  Rate Format:
+Rate Format:
     Numeric values with units: kbps, mbps (e.g., "1000kbps", "10mbps")
     
-  Time Format:
+Time Format:
     timestart/timestop: "HH:MM" format (24-hour)
     weekday: Comma-separated day names (Mon,Tue,Wed,Thu,Fri,Sat,Sun)
     
-  Examples:
+Examples:
     Create group QoS (limit to ~2.5MB/s down, ~1MB/s up):
       {"_api":"group_tc_set","optype":"1","grp_name":"office_users","switch":"1","upload":"8000kbps","download":"20000kbps"}
     
@@ -206,9 +241,9 @@ python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api or
 Optional parameters:
 - `--param 'base=<json>'`
 - `--param 'total=<json>'`
-- `--param 'shaping=<json>'`
+- `--param 'shaping=<json_array>'`
 - `--param 'auto_shaping=<json>'`
-- `--param 'wan_shaping=<json>'`
+- `--param 'wan_shaping=<json>'` (21.02 only)
 
 ### `group_tc_get`
 

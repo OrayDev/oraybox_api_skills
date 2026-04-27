@@ -25,6 +25,7 @@ Every request must include the form fields `_api` (API name) and `_pwd` (admin p
 - [UPNPD](upnpd.md)
 - [APP_TRAFFIC](app-traffic.md)
 - [USB_FILE](usb-file.md)
+- [NET_ACCESS_TIME](net-access-time.md)
 
 ## Error Codes
 

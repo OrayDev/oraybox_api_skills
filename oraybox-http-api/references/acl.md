@@ -66,6 +66,21 @@ ACL Rule JSON Format:
       {"_api":"acl_set","op":"3","rule":"{\\"idx\\":1,\\"action\\":\\"drop\\",\\"enabled\\":0}"}
 ```
 
+## SDK Version Differences (17.01 vs 21.02)
+
+`17.01` corresponds to firmware 6.x; `21.02` corresponds to firmware 7.x.
+
+| Aspect | 17.01 (Firmware 6.x) | 21.02 (Firmware 7.x) |
+|--------|----------------------|----------------------|
+| **Source group** | `src_grp_names` (optional, validated) | `src_ip_group` (required) |
+| **Dest group** | `dst_grp_names` (optional, validated) | `dst_ip_group` (required) |
+| **Source IPs** | `src_list` (optional) | **Removed** |
+| **Dest IPs** | `dst_list` (optional) | **Removed** |
+| **Time** | `weekday` + `daytime_list` | `time_group` (required) |
+| **Traffic type** | `traffic_type` (optional, `input`/`output`/`forward`) | **Removed** |
+| **Priority change** | Calls shell scripts (`acl_raise.sh` / `acl_reduce.sh`) | Restarts firewall |
+| **`acl_get` returns** | `weekday`, `src_grp_names`, `dst_grp_names`, `src_list`, `dst_list`, `daytime_list`, `traffic_type`, `support_traffic_type` | `src_ip_group`, `dst_ip_group`, `time_group` |
+
 ## CLI Examples
 
 Use the script directly from the command line:

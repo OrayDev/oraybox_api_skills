@@ -65,6 +65,38 @@ Behaviour Management Rules:
       {"_api":"behaviour_set","optype":"4","rules":"[{\\"list_type\\":\\"white\\",\\"ip_group\\":\\"office_users\\",\\"dns_group\\":\\"work_sites\\",\\"time_group\\":\\"work_hours\\"}]"}
 ```
 
+## SDK Version Differences (17.01 vs 21.02)
+
+`17.01` corresponds to firmware 6.x; `21.02` corresponds to firmware 7.x.
+
+### `behaviour_get`
+
+| Aspect | 17.01 (Firmware 6.x) | 21.02 (Firmware 7.x) |
+|--------|----------------------|----------------------|
+| **Top-level** | Returns `user_groups` + `rules` | `user_groups` **removed** |
+| **Rule fields** | `weekday`, `address_list`, `user_groups`, `daytime_list[]` | `ip_group`, `mac_group`, `dns_group`, `time_group` |
+
+### `behaviour_set`
+
+| Aspect | 17.01 (Firmware 6.x) | 21.02 (Firmware 7.x) |
+|--------|----------------------|----------------------|
+| **Rule fields** | `grp_names`, `visit_list`, `weekday`, `timestart`, `timestop`, `daytime_list` | `ip_group`, `mac_group`, `dns_group`, `time_group`, `list_type` |
+| **Validation** | Validates `grp_names`, `visit_list`, `weekday`, `daytime_list` | Validates `ip_group`, `dns_group`, `time_group` |
+| **Post-commit** | Restarts behaviour service | Restarts firewall (`restart_firewall(false)`) |
+| **User group ops** | Restarts behaviour service on success | Returns success without restarting behaviour |
+
+### `behaviour_log_get`
+
+| Aspect | 17.01 (Firmware 6.x) | 21.02 (Firmware 7.x) |
+|--------|----------------------|----------------------|
+| **Log file missing** | Returns `no_target` error | Returns `success` with empty log data |
+
+### `behaviour_log_set`
+
+| Aspect | 17.01 (Firmware 6.x) | 21.02 (Firmware 7.x) |
+|--------|----------------------|----------------------|
+| **Side effects** | Restarts behaviour service | Also controls firewall `flow_offloading`: disables when enabling logs, re-enables when disabling logs (if `app_traffic` is also off) |
+
 ## `behaviour_log_get`
 
 Get HTTP behaviour logs
@@ -148,7 +180,7 @@ Optional parameters:
 ### `behaviour_log_set`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api behaviour_log_set --param http_enabled=0
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api behaviour_log_set --param http_enabled=1
 ```
 
 ### `behaviour_log_clear`

@@ -152,6 +152,103 @@ class OrayboxHttpAPI:
             results.append(result)
         return results
 
+    def set_wifi_password(
+        self,
+        band: str,
+        password: str,
+        encryption: str | None = None,
+    ) -> dict[str, Any]:
+        """Set WiFi password for the given band (2.4G or 5G).
+
+        Automatically detects firmware version and uses the correct
+        encryption parameter (`encryption` for new firmware, `encrypt`
+        for older firmware without `feature` field).
+
+        Args:
+            band: WiFi band — "2.4G" or "5G".
+            password: New WiFi password (8-63 characters).
+            encryption: Encryption type. If None, auto-detected from
+                `wifi_get` response (`feature.encryptions`). Falls back
+                to "psk2+ccmp" if detection fails.
+
+        Returns:
+            Parsed JSON response from `wifi_set`.
+
+        Raises:
+            OrayboxHttpAPIError: On API errors.
+        """
+        if band not in ("2.4G", "5G"):
+            raise ValueError("band must be '2.4G' or '5G'")
+
+        # Fetch current config
+        # Note: when dev is specified, wifi_get returns the band config directly.
+        # When dev is omitted, it wraps configs under "2.4G" / "5G" keys.
+        current = self.call("wifi_get", dev=band, tag=1)
+        cfg = current.get(band) if band in current else current
+
+        if not cfg or not isinstance(cfg, dict):
+            raise OrayboxHttpAPIError(
+                f"No WiFi config found for {band}", api_name="wifi_get"
+            )
+
+        # Detect encryption type
+        if encryption is None:
+            feature = cfg.get("feature", {})
+            wdevs = feature.get("wdevs", [])
+            if wdevs and "encryptions" in wdevs[0]:
+                encryptions = wdevs[0]["encryptions"]
+                # Prefer psk2+ccmp if available
+                for enc in ("psk2+ccmp", "psk2", "psk-mixed+ccmp", "psk+ccmp"):
+                    if enc in encryptions:
+                        encryption = enc
+                        break
+                if encryption is None:
+                    encryption = encryptions[-1] if encryptions else "psk2+ccmp"
+            else:
+                encryption = "psk2+ccmp"
+
+        # Determine whether to use `encryption` or deprecated `encrypt`
+        has_feature = "feature" in cfg
+        enc_key = "encryption" if has_feature else "encrypt"
+
+        # Build ssid_list from current config
+        raw_ssid_list = cfg.get("ssid_list", [])
+        ssid_list: list[dict[str, Any]] = []
+        for item in raw_ssid_list:
+            if not isinstance(item, dict) or not item.get("ssid"):
+                continue
+            ssid_item: dict[str, Any] = {
+                "ssid": item.get("ssid", ""),
+                "pwd": password,
+                enc_key: encryption,
+                "hidden": int(item.get("hidden", "0")),
+                "isolation": int(item.get("isolation", "0")),
+                "sta_isolation": int(item.get("sta_isolation", "0")),
+                "switch": int(item.get("switch", "1")),
+            }
+            # Preserve optional fields if present
+            for opt in ("maxassoc", "ft", "vlanid", "shaping_switch", "upload", "download"):
+                if opt in item and item[opt] not in (None, "", 0, "0"):
+                    ssid_item[opt] = item[opt]
+            ssid_list.append(ssid_item)
+
+        if not ssid_list:
+            raise OrayboxHttpAPIError(
+                f"No valid SSID config found for {band}", api_name="wifi_get"
+            )
+
+        return self.call(
+            "wifi_set",
+            dev=band,
+            switch=int(cfg.get("switch", 1)),
+            htmode=cfg.get("htmode", "HT40" if band == "2.4G" else "VHT80"),
+            channel=0 if cfg.get("channel") == "auto" else int(cfg.get("channel", 0)),
+            level=int(cfg.get("level", 3)),
+            pattern=int(cfg.get("pattern", 0)),
+            country=cfg.get("country", "CN"),
+            ssid_list=ssid_list,
+        )
+
     def __enter__(self) -> "OrayboxHttpAPI":
         return self
 

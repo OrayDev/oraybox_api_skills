@@ -76,6 +76,7 @@ Read the relevant file when you need parameter details or examples for a specifi
 | UPnP | [upnpd.md](references/upnpd.md) | upnpd_get/set |
 | App Traffic | [app-traffic.md](references/app-traffic.md) | app_traffic_get/set, app_traffic_upload_get/set |
 | USB File | [usb-file.md](references/usb-file.md) | usb_file_samba_get/get_ex/set, usb_file_format, usb_file_format_result, usb_label_set, usb_safe_remove |
+| Net Access Time | [net-access-time.md](references/net-access-time.md) | net_access_time_get/set |
 
 See [references/index.md](references/index.md) for the full error codes reference.
 
@@ -146,6 +147,21 @@ python3 scripts/oraybox_http_api.py \
 ```
 
 See [references/index.md](references/index.md) for per-API CLI examples.
+
+## WiFi Configuration Notes
+
+The `wifi_set` API has special compatibility behavior:
+
+1. **New firmware** (`wifi_get` returns `feature` field):
+   - Use `encryption` field in `ssid_list`
+   - Value must be from `feature.encryptions` list (e.g., `"psk2+ccmp"`)
+
+2. **Older firmware** (`wifi_get` without `feature` field):
+   - Use deprecated `encrypt` field in `ssid_list` instead
+   - Deprecated fields: `auth`, `encrypt`, `wpa3`
+
+3. **`wifi_set` is OVERWRITING** — always call `wifi_get` first, modify, then submit.
+   Missing parameters reset to defaults.
 
 ## Notes
 
