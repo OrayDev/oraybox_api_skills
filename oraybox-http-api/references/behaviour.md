@@ -69,6 +69,8 @@ Behaviour Management Rules:
 
 `17.01` corresponds to firmware 6.x; `21.02` corresponds to firmware 7.x.
 
+> **Agent Guidance:** Call `sys_base_info` first and check the `ver_main` field to determine the firmware generation. `ver_main` starting with `6` means 6.x / SDK 17.01; starting with `7` means 7.x / SDK 21.02. Use the corresponding parameter format below.
+
 ### `behaviour_get`
 
 | Aspect | 17.01 (Firmware 6.x) | 21.02 (Firmware 7.x) |

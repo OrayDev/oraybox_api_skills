@@ -122,6 +122,8 @@ IMPORTANT USAGE NOTES:
     - auth_secret:    RADIUS shared secret (required for WPA2-EAP)
     - nasid:          NAS Identifier for RADIUS (optional for WPA2-EAP)
 
+  > **Agent Guidance:** Call `sys_base_info` first and check the `ver_main` field to determine the firmware generation. `ver_main` starting with `6` means 6.x / SDK 17.01 (no `feature` field in `wifi_get`); starting with `7` means 7.x / SDK 21.02 (`feature` field present). Use the corresponding parameter format below.
+
   Compatibility Notes:
     1. If `wifi_get` response contains `feature` field, use `encryption` in ssid_list.
     2. If `wifi_get` response does NOT contain `feature` field (older firmware),
@@ -191,6 +193,8 @@ Disconnect WiFi client
 ## SDK Version Differences for `wifi_timer` (17.01 vs 21.02)
 
 `17.01` corresponds to firmware 6.x; `21.02` corresponds to firmware 7.x.
+
+> **Agent Guidance:** Call `sys_base_info` first and check the `ver_main` field to determine the firmware generation. `ver_main` starting with `6` means 6.x / SDK 17.01; starting with `7` means 7.x / SDK 21.02. Use the corresponding parameter format below.
 
 > **Note:** `wifi_timer` APIs (`wifi_timer_get`, `wifi_timer_set`) are not listed in the main API docs but exist in the `wifi_timer` package with version-specific implementations.
 

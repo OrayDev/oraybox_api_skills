@@ -25,6 +25,8 @@ None
 
 `17.01` corresponds to firmware 6.x; `21.02` corresponds to firmware 7.x.
 
+> **Agent Guidance:** Call `sys_base_info` first and check the `ver_main` field to determine the firmware generation. `ver_main` starting with `6` means 6.x / SDK 17.01; starting with `7` means 7.x / SDK 21.02. Use the corresponding parameter format below.
+
 | Aspect | 17.01 (Firmware 6.x) | 21.02 (Firmware 7.x) |
 |--------|----------------------|----------------------|
 | **Rule fields** | `enabled`, `idx`, `weekday`, `group_name`, `timestart`, `timestop` | `enabled`, `idx`, `ip_group`, `time_group` |
@@ -50,6 +52,8 @@ Set network access time rules
 ### SDK Version Differences (17.01 vs 21.02)
 
 `17.01` corresponds to firmware 6.x; `21.02` corresponds to firmware 7.x.
+
+> **Agent Guidance:** Call `sys_base_info` first and check the `ver_main` field to determine the firmware generation. `ver_main` starting with `6` means 6.x / SDK 17.01; starting with `7` means 7.x / SDK 21.02. Use the corresponding parameter format below.
 
 | Aspect | 17.01 (Firmware 6.x) | 21.02 (Firmware 7.x) |
 |--------|----------------------|----------------------|

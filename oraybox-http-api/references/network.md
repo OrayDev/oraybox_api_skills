@@ -21,7 +21,9 @@ APIs in the **NETWORK** category.
 
 ## `interface_operate`
 
-Add/Delete/Edit network interfaces
+Add/Delete/Edit network interfaces.
+
+> ⚠️ **Note**: Configuration changes made via this API **do not take effect immediately**. You must call `restart_service` with `name=network` to restart the network for the changes to be applied.
 
 ### Parameters
 
@@ -30,7 +32,7 @@ Add/Delete/Edit network interfaces
 | `op` | string | Yes | Operation type: add (create new), del (delete), edit (modify existing)  
 (Values: add | del | edit) |
 | `name` | string | Yes | Interface name (e.g., wan3, eth0) |
-| `label` | string | No | Interface label/identifier. REQUIRED for wired WAN (dhcp/static/pppoe), optional for others |
+| `label` | string | No | Physical port label. **REQUIRED for wired WAN types** (`dhcp`/`static`/`pppoe`) — specifies which physical Ethernet port to assign as the WAN interface. Omit for `wifi_sta`, `usb`, and `modem` modes. Query existing interface labels via `interface_dump`, or view all physical ports via `ether_status_get` |
 | `info` | json | No | Interface configuration JSON object (see details below) |
 | `batch` | integer | No | Enable batch mode for multiple operations  
 (Values: 0 | 1) |
@@ -45,6 +47,13 @@ Add/Delete/Edit network interfaces
 ```
 WAN info JSON (add/edit):
     mod=<dhcp|static|pppoe|usb|wifi_sta|modem> (required)
+    
+    > **Important:** For wired WAN modes (`dhcp`, `static`, `pppoe`), you MUST also provide
+    > the `label` parameter to specify which physical Ethernet port becomes the WAN port.
+    > The router uses `label` to look up the bound physical interface (via board.json labels).
+    > If the port is a silkscreen-bound physical port (disable_vlan=true), it is removed
+    > from the LAN bridge and used directly as WAN. Otherwise, a VLAN is created for it.
+    > Query available labels via `interface_dump` (check the `labels` field of interfaces).
     
     ==================== DHCP ====================
     {mod:"dhcp", [dns:<ip>], [mtu:<n>], [remark:<str>], [ipv6:<0|1>], 
@@ -68,7 +77,7 @@ WAN info JSON (add/edit):
       sta_key:"<password>",            // Target WiFi password
       sta_encryption:"<type>",         // Encryption: none, psk, psk2, psk-mixed
       [sta_channel:"<n>"],             // Target WiFi channel (optional)
-      [wifi_type:"<band>"],            // Band: 2.4G, 5G (auto-detect if not set)
+      [wifi_type:"<band>"],            // Band: 1=5G, other values=2.4G (usually 0). Auto-detect if not set
       
       // WiFi connection settings (optional)
       [sta_static:"<0|1>"],            // Use configured channel/encryption directly: 1 (use config, for hidden SSID), 0 (auto-scan, ignore config)
@@ -306,15 +315,58 @@ Get interface status
 
 ## `interface_dump`
 
-Dump all interfaces
+Dump a single interface's information from ubus
 
 ### Parameters
 
-None
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `interface` | string | Yes | Interface name to query (e.g., `wan`, `lan`, `wan2`). The API calls ubus `network.interface dump`, then searches the returned array for an entry whose `.interface` field matches this value. **Omitting this parameter always returns `no_target`** |
 
 ### Returns
 
-> interfaces[]
+> code, result
+
+### Details
+
+```
+Implementation behavior:
+  1. Calls ubus "network.interface" "dump" to fetch all interfaces
+  2. Iterates the interface array and matches entry.interface == args.interface
+  3. On match: returns code=success, result=the matched interface object
+  4. On no match (including interface=nil): returns code=no_target, result=nil
+
+Response format:
+  {
+    "code": 0,
+    "result": {          // single interface object, NOT an array
+      "interface": "wan",
+      "up": true,
+      "pending": false,
+      "available": true,
+      "autostart": true,
+      "dynamic": false,
+      "uptime": 12345,
+      "l3_device": "eth0.2",
+      "proto": "dhcp",
+      "device": "eth0.2",
+      "updated": ["addresses", "routes", "data"],
+      "metric": 0,
+      "dns_metric": 0,
+      "delegation": true,
+      "ipv4-address": [{"address":"192.168.1.100","mask":24}],
+      "ipv6-address": [],
+      "ipv6-prefix": [],
+      "ipv6-prefix-assignment": [],
+      "route": [{"target":"0.0.0.0","mask":0,"nexthop":"192.168.1.1","source":"192.168.1.100/24"}],
+      "dns-server": ["192.168.1.1"],
+      "dns-search": [],
+      "neighbors": [],
+      "inactive": {"ipv4-address":[],"ipv6-address":[],"route":[],"dns-server":[],"dns-search":[],"neighbors":[]},
+      "data": {}
+    }
+  }
+```
 
 ## `ether_status_get`
 
