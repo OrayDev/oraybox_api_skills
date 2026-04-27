@@ -186,3 +186,52 @@ Disconnect WiFi client
 ### Returns
 
 > code
+
+## CLI Examples
+
+Use the script directly from the command line:
+
+### `wifi_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api wifi_get
+```
+
+Optional parameters:
+- `--param dev=<value>`
+- `--param tag=<value>`
+
+### `wifi_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api wifi_set --param dev=2.4G --param switch=1 --param htmode=<value> --param channel=1 --param level=1 --param pattern=1 --param country=<value> --param 'ssid_list=["value1","value2"]'
+```
+
+Optional parameters:
+- `--param 'batch_set=<json>'`
+- `--param is_restart_wifi=<value>`
+- `--param not_restart_net=<value>`
+
+### `wifi_scan_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api wifi_scan_get
+```
+
+Optional parameters:
+- `--param dev=<value>`
+
+### `wifi_channels_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api wifi_channels_get --param dev=2.4G
+```
+
+### `wifi_disconnect_sta`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api wifi_disconnect_sta --param mac=<value>
+```
+
+Optional parameters:
+- `--param dev=<value>`

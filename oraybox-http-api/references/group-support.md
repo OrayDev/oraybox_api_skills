@@ -115,3 +115,36 @@ Delete group references from all rules
 ### Returns
 
 > code
+
+## CLI Examples
+
+Use the script directly from the command line:
+
+### `group_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api group_get --param grp_type=ip
+```
+
+### `group_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api group_set --param optype=1 --param grp_type=ip
+```
+
+Optional parameters:
+- `--param 'grp_data=<json>'`
+- `--param id=<value>`
+- `--param merge=<value>`
+
+### `group_reference_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api group_reference_get --param grp_type=ip --param grp_index=<value>
+```
+
+### `group_reference_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api group_reference_set --param cmd=del --param grp_type=<value> --param grp_index=<value>
+```

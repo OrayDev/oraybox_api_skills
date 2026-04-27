@@ -186,3 +186,49 @@ Group Traffic Control:
     Delete group QoS:
       {"_api":"group_tc_set","optype":"3","grp_name":"office_users"}
 ```
+
+## CLI Examples
+
+Use the script directly from the command line:
+
+### `oraytc_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api oraytc_get
+```
+
+### `oraytc_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api oraytc_set
+```
+
+Optional parameters:
+- `--param 'base=<json>'`
+- `--param 'total=<json>'`
+- `--param 'shaping=<json>'`
+- `--param 'auto_shaping=<json>'`
+- `--param 'wan_shaping=<json>'`
+
+### `group_tc_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api group_tc_get --param grp_name=<value>
+```
+
+### `group_tc_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api group_tc_set --param optype=1 --param grp_name=<value>
+```
+
+Optional parameters:
+- `--param switch=<value>`
+- `--param upload=<value>`
+- `--param download=<value>`
+- `--param upload_max=<value>`
+- `--param download_max=<value>`
+- `--param combine_shaping=<value>`
+- `--param weekday=<value>`
+- `--param timestart=<value>`
+- `--param timestop=<value>`

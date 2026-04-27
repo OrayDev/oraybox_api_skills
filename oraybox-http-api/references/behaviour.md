@@ -109,3 +109,50 @@ None
 ### Returns
 
 > code
+
+## CLI Examples
+
+Use the script directly from the command line:
+
+### `behaviour_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api behaviour_get
+```
+
+### `behaviour_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api behaviour_set --param optype=1
+```
+
+Optional parameters:
+- `--param grp_name=<value>`
+- `--param 'addr_list=<json>'`
+- `--param 'rules=<json>'`
+- `--param merge=<value>`
+
+### `behaviour_log_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api behaviour_log_get
+```
+
+Optional parameters:
+- `--param search=<value>`
+- `--param time_start=<value>`
+- `--param time_stop=<value>`
+- `--param page_record_count=<value>`
+- `--param page_seq=<value>`
+
+### `behaviour_log_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api behaviour_log_set --param http_enabled=0
+```
+
+### `behaviour_log_clear`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api behaviour_log_clear
+```

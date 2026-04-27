@@ -125,3 +125,19 @@ SNMP Configuration JSON Format:
     Disable SNMP:
       {"_api":"snmp_set","info":"{\\"enabled\\":0}"}
 ```
+
+## CLI Examples
+
+Use the script directly from the command line:
+
+### `snmp_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api snmp_get
+```
+
+### `snmp_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api snmp_set --param 'info={"key":"value"}'
+```

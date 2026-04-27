@@ -97,6 +97,56 @@ The router returns JSON:
 The client raises `OrayboxHttpAPIError` on HTTP failures, JSON decode errors,
 or when `code != 0`.
 
+## CLI Usage
+
+The script can also be run directly from the command line:
+
+```bash
+python3 scripts/oraybox_http_api.py \
+    --host 192.168.1.1 \
+    --password admin \
+    --api sys_base_info
+```
+
+### CLI Parameters
+
+| Flag | Required | Default | Description |
+|------|----------|---------|-------------|
+| `--host` | yes | — | Router IP address or hostname |
+| `--password` | yes | — | Admin panel password |
+| `--api` | yes | — | API name to call |
+| `--param` | no | — | API parameter as `key=value`. Can be used multiple times. For JSON values, wrap the whole argument in quotes. |
+| `--timeout` | no | 30 | HTTP timeout in seconds |
+| `--https` | no | false | Use HTTPS instead of HTTP |
+
+### CLI Examples
+
+Simple parameter:
+```bash
+python3 scripts/oraybox_http_api.py \
+    --host 192.168.1.1 --password admin \
+    --api wifi_get --param dev=2.4G --param tag=1
+```
+
+JSON parameter (shell-quoted):
+```bash
+python3 scripts/oraybox_http_api.py \
+    --host 192.168.1.1 --password admin \
+    --api interface_operate \
+    --param 'op=add' \
+    --param 'name=wan3' \
+    --param 'info={"mod":"dhcp"}'
+```
+
+HTTPS with custom timeout:
+```bash
+python3 scripts/oraybox_http_api.py \
+    --host 192.168.1.1 --password admin --https --timeout 60 \
+    --api cpu_mem_get
+```
+
+See [references/index.md](references/index.md) for per-API CLI examples.
+
 ## Notes
 
 - Complex parameters (dicts/lists) are automatically JSON-encoded before sending.

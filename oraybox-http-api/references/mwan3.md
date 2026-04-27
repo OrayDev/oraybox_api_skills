@@ -258,3 +258,95 @@ Network Status Alarm:
     Configure specific interface:
       {"_api":"netstat_alarm_set","ifnames":"[\\"wan\\",\\"wan2\\"]","enable":1,"iface_conn_state_enable":1}
 ```
+
+## CLI Examples
+
+Use the script directly from the command line:
+
+### `mwan_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api mwan_get
+```
+
+### `mwan_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api mwan_set --param mode=multiwan
+```
+
+Optional parameters:
+- `--param 'rules=<json>'`
+- `--param 'order=<json>'`
+
+### `mwan_rules_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api mwan_rules_get
+```
+
+### `mwan_rules_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api mwan_rules_set --param 'rules=["value1","value2"]'
+```
+
+Optional parameters:
+- `--param op=<value>`
+
+### `interface_track_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api interface_track_get
+```
+
+Optional parameters:
+- `--param interface=<value>`
+
+### `interface_track_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api interface_track_set --param interface=<value>
+```
+
+Optional parameters:
+- `--param enabled=<value>`
+- `--param 'track_ip=<json>'`
+- `--param track_method=<value>`
+- `--param interval=<value>`
+- `--param timeout=<value>`
+- `--param count=<value>`
+- `--param reliability=<value>`
+- `--param failure_loss=<value>`
+- `--param recovery_loss=<value>`
+- `--param failure_latency=<value>`
+- `--param recovery_latency=<value>`
+- `--param down=<value>`
+- `--param up=<value>`
+- `--param size=<value>`
+- `--param port=<value>`
+
+### `netstat_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api netstat_get
+```
+
+### `netstat_alarm_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api netstat_alarm_get
+```
+
+### `netstat_alarm_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api netstat_alarm_set --param enable=1
+```
+
+Optional parameters:
+- `--param 'ifnames=<json>'`
+- `--param iface_conn_state_enable=<value>`
+- `--param latency_alarm_enable=<value>`
+- `--param latency_alarm_high_threshold=<value>`
+- `--param latency_alarm_low_threshold=<value>`

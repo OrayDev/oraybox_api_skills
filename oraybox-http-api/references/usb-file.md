@@ -245,3 +245,60 @@ Safely Remove USB Device:
     Force removal:
       {"_api":"usb_safe_remove","force":1}
 ```
+
+## CLI Examples
+
+Use the script directly from the command line:
+
+### `usb_file_samba_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api usb_file_samba_get
+```
+
+### `usb_file_samba_get_ex`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api usb_file_samba_get_ex
+```
+
+### `usb_file_samba_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api usb_file_samba_set --param share_enabled=<value>
+```
+
+Optional parameters:
+- `--param user_name=<value>`
+- `--param user_pwd=<value>`
+- `--param wan_share_enable=<value>`
+
+### `usb_file_format`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api usb_file_format --param device=<value>
+```
+
+### `usb_file_format_result`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api usb_file_format_result
+```
+
+### `usb_label_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api usb_label_set --param device=<value>
+```
+
+Optional parameters:
+- `--param label=<value>`
+
+### `usb_safe_remove`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api usb_safe_remove
+```
+
+Optional parameters:
+- `--param force=<value>`

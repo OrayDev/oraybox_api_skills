@@ -98,3 +98,52 @@ Test network connectivity
 ### Returns
 
 > result
+
+## CLI Examples
+
+Use the script directly from the command line:
+
+### `dump_ping`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api dump_ping
+```
+
+### `ping`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api ping --param hostname=<value>
+```
+
+Optional parameters:
+- `--param interface=<value>`
+
+### `dump_traceroute`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api dump_traceroute
+```
+
+### `dump_ifconfig`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api dump_ifconfig
+```
+
+### `dump_route`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api dump_route
+```
+
+### `dump_ps`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api dump_ps
+```
+
+### `net_test`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api net_test
+```

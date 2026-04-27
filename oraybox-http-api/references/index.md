@@ -62,3 +62,25 @@ Every request must include the form fields `_api` (API name) and `_pwd` (admin p
 | 130 | Encrypt/Decrypt failed |
 | 301 | USB partition not found |
 | 302 | File system not supported |
+
+
+## CLI Usage
+
+The Python script can be run directly as a CLI tool:
+
+```bash
+python3 scripts/oraybox_http_api.py     --host 192.168.1.1     --password admin     --api sys_base_info
+```
+
+### Global CLI Flags
+
+| Flag | Required | Description |
+|------|----------|-------------|
+| `--host` | yes | Router IP or hostname |
+| `--password` | yes | Admin password |
+| `--api` | yes | API name |
+| `--param` | no | Parameter as `key=value` (repeatable) |
+| `--timeout` | no | HTTP timeout (default: 30) |
+| `--https` | no | Use HTTPS |
+
+For per-API CLI examples, see the individual category reference files.

@@ -85,3 +85,30 @@ DMZ (Demilitarized Zone):
     Disable DMZ:
       {"_api":"dmz_set","wan_name":"wan","enable":"false"}
 ```
+
+## CLI Examples
+
+Use the script directly from the command line:
+
+### `dmz_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api dmz_get
+```
+
+### `dmz_get_ex`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api dmz_get_ex
+```
+
+### `dmz_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api dmz_set --param wan_name=<value>
+```
+
+Optional parameters:
+- `--param dest_ip=<value>`
+- `--param enable=<value>`
+- `--param enabled=<value>`

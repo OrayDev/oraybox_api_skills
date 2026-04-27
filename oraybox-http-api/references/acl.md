@@ -65,3 +65,23 @@ ACL Rule JSON Format:
     Modify rule:
       {"_api":"acl_set","op":"3","rule":"{\\"idx\\":1,\\"action\\":\\"drop\\",\\"enabled\\":0}"}
 ```
+
+## CLI Examples
+
+Use the script directly from the command line:
+
+### `acl_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api acl_get
+```
+
+### `acl_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api acl_set --param op=1
+```
+
+Optional parameters:
+- `--param 'rules=<json>'`
+- `--param 'rule=<json>'`

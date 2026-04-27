@@ -71,3 +71,38 @@ Set MAC access control
 ### Returns
 
 > code
+
+## CLI Examples
+
+Use the script directly from the command line:
+
+### `lan_device_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api lan_device_get
+```
+
+### `lan_device_alias_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api lan_device_alias_set --param type=1 --param mac=<value>
+```
+
+Optional parameters:
+- `--param alias=<value>`
+
+### `mac_control_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api mac_control_get
+```
+
+### `mac_control_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api mac_control_set --param switch=1 --param allow=1 --param mac_addrs=<value>
+```
+
+Optional parameters:
+- `--param describe=<value>`
+- `--param guest_control=<value>`

@@ -17,3 +17,13 @@ Restart a service
 ### Returns
 
 > code
+
+## CLI Examples
+
+Use the script directly from the command line:
+
+### `restart_service`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api restart_service
+```

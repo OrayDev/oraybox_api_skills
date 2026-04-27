@@ -97,3 +97,52 @@ Set hosts entries
 ### Returns
 
 > code
+
+## CLI Examples
+
+Use the script directly from the command line:
+
+### `dhcp_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api dhcp_get
+```
+
+### `dhcp_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api dhcp_set
+```
+
+### `dhcp_bind_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api dhcp_bind_get
+```
+
+### `dhcp_bind_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api dhcp_bind_set --param op=1
+```
+
+Optional parameters:
+- `--param hostname=<value>`
+- `--param ip=<value>`
+- `--param mac=<value>`
+- `--param new_hostname=<value>`
+- `--param new_ip=<value>`
+- `--param new_mac=<value>`
+- `--param arp_sync_switch=<value>`
+
+### `hosts_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api hosts_get
+```
+
+### `hosts_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api hosts_set
+```

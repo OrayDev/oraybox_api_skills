@@ -74,3 +74,22 @@ UPnP Configuration:
     Disable UPnP:
       {"_api":"upnpd_set","enabled":"0"}
 ```
+
+## CLI Examples
+
+Use the script directly from the command line:
+
+### `upnpd_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api upnpd_get
+```
+
+### `upnpd_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api upnpd_set --param enabled=0
+```
+
+Optional parameters:
+- `--param external_iface=<value>`

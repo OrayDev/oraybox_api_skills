@@ -145,3 +145,34 @@ Traffic Data Upload:
     Disable upload:
       {"_api":"app_traffic_upload_set","enabled":"0"}
 ```
+
+## CLI Examples
+
+Use the script directly from the command line:
+
+### `app_traffic_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api app_traffic_get --param dev=<value> --param time=24h
+```
+
+### `app_traffic_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api app_traffic_set --param enable=0
+```
+
+### `app_traffic_upload_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api app_traffic_upload_get
+```
+
+### `app_traffic_upload_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api app_traffic_upload_set --param enabled=0
+```
+
+Optional parameters:
+- `--param frequency=<value>`

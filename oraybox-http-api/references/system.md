@@ -184,3 +184,90 @@ Upgrade firmware
 ### Returns
 
 > code
+
+## CLI Examples
+
+Use the script directly from the command line:
+
+### `sys_base_info`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api sys_base_info
+```
+
+### `cpu_mem_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api cpu_mem_get
+```
+
+### `system_status_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api system_status_get
+```
+
+### `sys_time_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api sys_time_get
+```
+
+### `sys_time_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api sys_time_set --param time=<value>
+```
+
+### `timezone_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api timezone_get
+```
+
+### `timezone_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api timezone_set
+```
+
+Optional parameters:
+- `--param zonename=<value>`
+- `--param timezone=<value>`
+- `--param 'ntp_list=<json>'`
+- `--param ntp_enabled=<value>`
+
+### `reboot`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api reboot
+```
+
+### `reset`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api reset
+```
+
+### `passwd`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api passwd --param old_pwd=<value> --param new_pwd=<value>
+```
+
+### `upgrade_info_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api upgrade_info_get
+```
+
+### `sys_upgrade_ex`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api sys_upgrade_ex --param url=<value> --param md5=<value>
+```
+
+Optional parameters:
+- `--param file_name=<value>`
+- `--param use_https=<value>`
+- `--param reset=<value>`

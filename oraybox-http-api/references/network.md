@@ -460,3 +460,140 @@ MWAN3 Link Tracking Configuration:
     Disable tracking:
       {"_api":"interface_track_set","interface":"wan","enabled":0}
 ```
+
+## CLI Examples
+
+Use the script directly from the command line:
+
+### `interface_operate`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api interface_operate --param op=add --param name=<value>
+```
+
+Optional parameters:
+- `--param label=<value>`
+- `--param 'info=<json>'`
+- `--param batch=<value>`
+- `--param 'batch_info=<json>'`
+
+### `dns_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api dns_get
+```
+
+### `dns_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api dns_set
+```
+
+Optional parameters:
+- `--param dns=<value>`
+- `--param backup_dns=<value>`
+- `--param interface=<value>`
+- `--param no_restart_network=<value>`
+- `--param not_restart_net=<value>`
+
+### `static_route_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api static_route_get
+```
+
+### `static_route_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api static_route_set --param op=1 --param interface=<value> --param target=<value>
+```
+
+Optional parameters:
+- `--param netmask=<value>`
+- `--param gateway=<value>`
+- `--param metric=<value>`
+
+### `mtu_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api mtu_get
+```
+
+### `mtu_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api mtu_set
+```
+
+Optional parameters:
+- `--param mtu=<value>`
+- `--param interface=<value>`
+- `--param not_restart_net=<value>`
+
+### `work_mode_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api work_mode_get
+```
+
+### `work_mode_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api work_mode_set --param mode=0
+```
+
+Optional parameters:
+- `--param zone=<value>`
+
+### `interface_status_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api interface_status_get
+```
+
+### `interface_dump`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api interface_dump
+```
+
+### `ether_status_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api ether_status_get
+```
+
+Optional parameters:
+- `--param version=<value>`
+
+### `interface_track_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api interface_track_get
+```
+
+Optional parameters:
+- `--param interface=<value>`
+
+### `interface_track_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api interface_track_set --param interface=<value>
+```
+
+Optional parameters:
+- `--param enabled=<value>`
+- `--param 'track_ip=<json>'`
+- `--param track_method=<value>`
+- `--param interval=<value>`
+- `--param timeout=<value>`
+- `--param count=<value>`
+- `--param reliability=<value>`
+- `--param failure_loss=<value>`
+- `--param recovery_loss=<value>`
+- `--param failure_latency=<value>`
+- `--param recovery_latency=<value>`
+- `--param down=<value>`
+- `--param up=<value>`
+- `--param size=<value>`
+- `--param port=<value>`

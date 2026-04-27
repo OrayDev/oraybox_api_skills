@@ -100,3 +100,53 @@ Set IP-MAC binding
 ### Returns
 
 > code
+
+## CLI Examples
+
+Use the script directly from the command line:
+
+### `port_map_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api port_map_get
+```
+
+### `port_map_add`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api port_map_add --param hostname=<value> --param proto=tcp --param dest_ip=<value> --param dest_port=1
+```
+
+Optional parameters:
+- `--param src_port=<value>`
+- `--param wan_name=<value>`
+- `--param enabled=<value>`
+- `--param 'map_list=<json>'`
+- `--param not_restart_net=<value>`
+
+### `port_map_delete`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api port_map_delete
+```
+
+### `ip_bind_get`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api ip_bind_get
+```
+
+### `ip_bind_set`
+
+```bash
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api ip_bind_set --param op=1
+```
+
+Optional parameters:
+- `--param hostname=<value>`
+- `--param ip=<value>`
+- `--param mac=<value>`
+- `--param new_hostname=<value>`
+- `--param new_ip=<value>`
+- `--param new_mac=<value>`
+- `--param arp_sync_switch=<value>`
