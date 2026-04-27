@@ -2,13 +2,25 @@
 """Package the oraybox-http-api skill into a .skill zip archive."""
 
 import os
+import re
+import shutil
 import sys
 import zipfile
 
 
+def read_version(skill_dir):
+    """Read version from SKILL.md YAML front matter."""
+    skill_md = os.path.join(skill_dir, "SKILL.md")
+    with open(skill_md, "r", encoding="utf-8") as f:
+        content = f.read()
+    m = re.search(r"^version:\s*(.+)$", content, re.MULTILINE)
+    if m:
+        return m.group(1).strip()
+    return None
+
+
 def package_skill():
     skill_dir = "oraybox-http-api"
-    output = f"{skill_dir}.skill"
 
     if not os.path.isdir(skill_dir):
         print(f"Error: {skill_dir} directory not found", file=sys.stderr)
@@ -18,7 +30,13 @@ def package_skill():
         print(f"Error: SKILL.md not found in {skill_dir}", file=sys.stderr)
         sys.exit(1)
 
-    print(f"Packaging {skill_dir} -> {output} ...")
+    version = read_version(skill_dir)
+    if version:
+        output = f"{skill_dir}-{version}.skill"
+    else:
+        output = f"{skill_dir}.skill"
+
+    print(f"Packaging {skill_dir} (version: {version or 'unknown'}) -> {output} ...")
 
     if os.path.exists(output):
         os.remove(output)
@@ -38,6 +56,13 @@ def package_skill():
 
     size = os.path.getsize(output)
     print(f"Done: {output} ({size} bytes)")
+
+    # Also keep a .zip copy for general-purpose archive access
+    zip_output = output.replace(".skill", ".zip")
+    if os.path.exists(zip_output):
+        os.remove(zip_output)
+    shutil.copy2(output, zip_output)
+    print(f"Copied: {zip_output}")
 
 
 if __name__ == "__main__":

@@ -1,5 +1,6 @@
 ---
 name: oraybox-http-api
+version: 1.0.0
 description: >
   Python HTTP client for Oray router management APIs. Use when you need to
   interact with an Oray router via its HTTP API endpoint (/cgi-bin/oraybox).
@@ -22,15 +23,7 @@ Additional parameters are API-specific.
 
 ## Requirements
 
-Install Python dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-Dependencies:
-- `requests` — HTTP client library
-- `urllib3` — HTTP client underlying `requests`
+No external dependencies — uses only the Python standard library (`urllib`, `ssl`, `json`).
 
 ## Quick Start
 

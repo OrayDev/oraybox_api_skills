@@ -10,15 +10,16 @@ Required form fields:
     _pwd  - Router admin password
 
 Additional parameters depend on the specific API.
+
+Pure standard library — no external dependencies.
 """
 
 import json
+import ssl
+import urllib.error
+import urllib.parse
+import urllib.request
 from typing import Any
-
-import requests
-import urllib3
-
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 DEFAULT_TIMEOUT = 30
 DEFAULT_SCHEME = "http"
@@ -42,6 +43,9 @@ class OrayboxHttpAPI:
         timeout: HTTP request timeout in seconds (default: 30).
         scheme: URL scheme, "http" or "https" (default: "http").
         verify_ssl: Whether to verify SSL certificates (default: False).
+        use_proxy: Whether to use the system HTTP/HTTPS proxy. Default is
+            False because routers are typically on the local network and
+            should not go through an external proxy.
     """
 
     def __init__(
@@ -51,14 +55,22 @@ class OrayboxHttpAPI:
         timeout: int = DEFAULT_TIMEOUT,
         scheme: str = DEFAULT_SCHEME,
         verify_ssl: bool = False,
+        use_proxy: bool = False,
     ):
         self.host = host.rstrip("/")
         self.password = password
         self.timeout = timeout
         self.scheme = scheme
         self.verify_ssl = verify_ssl
-        self._session = requests.Session()
-        self._session.verify = verify_ssl
+        self.use_proxy = use_proxy
+        self._ssl_context = ssl.create_default_context()
+        if not verify_ssl:
+            self._ssl_context.check_hostname = False
+            self._ssl_context.verify_mode = ssl.CERT_NONE
+        handlers: list = [urllib.request.HTTPSHandler(context=self._ssl_context)]
+        if not use_proxy:
+            handlers.insert(0, urllib.request.ProxyHandler({}))
+        self._opener = urllib.request.build_opener(*handlers)
 
     @property
     def base_url(self) -> str:
@@ -93,25 +105,39 @@ class OrayboxHttpAPI:
                 or when the router returns an error code.
         """
         form = self._prepare_params(api_name, params)
+        data = urllib.parse.urlencode(form).encode("utf-8")
+        req = urllib.request.Request(
+            self.base_url,
+            data=data,
+            method="POST",
+            headers={"Content-Type": "application/x-www-form-urlencoded"},
+        )
+
         try:
-            response = self._session.post(
-                self.base_url,
-                data=form,
-                timeout=self.timeout,
-            )
-            response.raise_for_status()
-        except requests.exceptions.RequestException as exc:
+            with self._opener.open(
+                req, timeout=self.timeout
+            ) as response:
+                raw_body = response.read().decode("utf-8")
+        except urllib.error.HTTPError as exc:
             raise OrayboxHttpAPIError(
-                f"HTTP request failed: {exc}", api_name=api_name
+                f"HTTP error {exc.code}: {exc.reason}", api_name=api_name
+            ) from exc
+        except urllib.error.URLError as exc:
+            raise OrayboxHttpAPIError(
+                f"Connection failed: {exc.reason}", api_name=api_name
+            ) from exc
+        except TimeoutError as exc:
+            raise OrayboxHttpAPIError(
+                f"Request timed out after {self.timeout}s", api_name=api_name
             ) from exc
 
         try:
-            result = response.json()
+            result = json.loads(raw_body)
         except json.JSONDecodeError as exc:
             raise OrayboxHttpAPIError(
                 f"Failed to decode JSON response: {exc}",
                 api_name=api_name,
-                raw_response=response.text,
+                raw_response=raw_body,
             ) from exc
 
         code = result.get("code")
@@ -120,7 +146,7 @@ class OrayboxHttpAPI:
             raise OrayboxHttpAPIError(
                 f"API error: {msg} (code={code})",
                 api_name=api_name,
-                raw_response=response.text,
+                raw_response=raw_body,
             )
 
         return result
@@ -180,9 +206,6 @@ class OrayboxHttpAPI:
         if band not in ("2.4G", "5G"):
             raise ValueError("band must be '2.4G' or '5G'")
 
-        # Fetch current config
-        # Note: when dev is specified, wifi_get returns the band config directly.
-        # When dev is omitted, it wraps configs under "2.4G" / "5G" keys.
         current = self.call("wifi_get", dev=band, tag=1)
         cfg = current.get(band) if band in current else current
 
@@ -191,13 +214,11 @@ class OrayboxHttpAPI:
                 f"No WiFi config found for {band}", api_name="wifi_get"
             )
 
-        # Detect encryption type
         if encryption is None:
             feature = cfg.get("feature", {})
             wdevs = feature.get("wdevs", [])
             if wdevs and "encryptions" in wdevs[0]:
                 encryptions = wdevs[0]["encryptions"]
-                # Prefer psk2+ccmp if available
                 for enc in ("psk2+ccmp", "psk2", "psk-mixed+ccmp", "psk+ccmp"):
                     if enc in encryptions:
                         encryption = enc
@@ -207,11 +228,9 @@ class OrayboxHttpAPI:
             else:
                 encryption = "psk2+ccmp"
 
-        # Determine whether to use `encryption` or deprecated `encrypt`
         has_feature = "feature" in cfg
         enc_key = "encryption" if has_feature else "encrypt"
 
-        # Build ssid_list from current config
         raw_ssid_list = cfg.get("ssid_list", [])
         ssid_list: list[dict[str, Any]] = []
         for item in raw_ssid_list:
@@ -226,7 +245,6 @@ class OrayboxHttpAPI:
                 "sta_isolation": int(item.get("sta_isolation", "0")),
                 "switch": int(item.get("switch", "1")),
             }
-            # Preserve optional fields if present
             for opt in ("maxassoc", "ft", "vlanid", "shaping_switch", "upload", "download"):
                 if opt in item and item[opt] not in (None, "", 0, "0"):
                     ssid_item[opt] = item[opt]
@@ -253,7 +271,7 @@ class OrayboxHttpAPI:
         return self
 
     def __exit__(self, *args: Any) -> None:
-        self._session.close()
+        pass
 
 
 if __name__ == "__main__":
@@ -266,6 +284,7 @@ if __name__ == "__main__":
     parser.add_argument("--param", action="append", default=[], help="Extra param as key=value (can repeat)")
     parser.add_argument("--timeout", type=int, default=30, help="HTTP timeout")
     parser.add_argument("--https", action="store_true", help="Use HTTPS")
+    parser.add_argument("--use-proxy", action="store_true", help="Use system HTTP/HTTPS proxy (default: disabled)")
     args = parser.parse_args()
 
     params = {}
@@ -280,6 +299,7 @@ if __name__ == "__main__":
         password=args.password,
         timeout=args.timeout,
         scheme="https" if args.https else "http",
+        use_proxy=args.use_proxy,
     )
     try:
         result = client.call(args.api, **params)
