@@ -1,0 +1,4 @@
+# Python dependencies for oraybox_http_api.py
+
+requests>=2.25.0
+urllib3>=1.26.0

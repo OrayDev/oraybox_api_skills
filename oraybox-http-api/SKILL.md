@@ -20,6 +20,18 @@ Every call requires two form fields:
 
 Additional parameters are API-specific.
 
+## Requirements
+
+Install Python dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Dependencies:
+- `requests` — HTTP client library
+- `urllib3` — HTTP client underlying `requests`
+
 ## Quick Start
 
 ```python

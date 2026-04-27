@@ -73,7 +73,7 @@ This creates `oraybox-http-api.skill` (a zip archive of the skill directory).
 - `requests`
 
 ```bash
-pip install requests
+pip install -r oraybox-http-api/requirements.txt
 ```
 
 ## Testing
