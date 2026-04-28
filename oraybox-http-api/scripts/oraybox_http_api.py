@@ -289,6 +289,15 @@ class OrayboxHttpAPI(object):
 
 
 if __name__ == "__main__":
+    import sys
+
+    # Force UTF-8 for stdout/stderr to prevent mojibake on Windows and
+    # other environments where the default encoding is not UTF-8.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+    if hasattr(sys.stderr, "reconfigure"):
+        sys.stderr.reconfigure(encoding="utf-8")
+
     import argparse
 
     parser = argparse.ArgumentParser(description="Call Oraybox router API via HTTP")
