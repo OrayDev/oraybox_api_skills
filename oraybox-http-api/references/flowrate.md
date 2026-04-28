@@ -26,7 +26,7 @@ Get flow rate by IP
 
 ### Parameters
 
-> ip=<ip>
+> [ip=<ip>]
 
 ### Returns
 

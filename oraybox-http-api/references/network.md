@@ -606,7 +606,7 @@ python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api interface_status_ge
 ### `interface_dump`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api interface_dump
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api interface_dump --param interface=<value>
 ```
 
 ### `ether_status_get`

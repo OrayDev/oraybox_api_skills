@@ -111,8 +111,17 @@ python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api dhcp_get
 ### `dhcp_set`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api dhcp_set
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api dhcp_set --param switch=1
 ```
+
+Optional parameters:
+- `--param op=<value>`
+- `--param interface=<value>`
+- `--param ip_start=<value>`
+- `--param ip_end=<value>`
+- `--param limit=<value>`
+- `--param rent_time=<value>`
+- `--param 'dhcp_option=<json>'`
 
 ### `dhcp_bind_get`
 
@@ -144,5 +153,5 @@ python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api hosts_get
 ### `hosts_set`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api hosts_set
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api hosts_set --param 'hosts=<json_array>'
 ```

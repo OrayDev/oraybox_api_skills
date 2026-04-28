@@ -106,8 +106,13 @@ Use the script directly from the command line:
 ### `dump_ping`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api dump_ping
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api dump_ping --param hostname=<value>
 ```
+
+Optional parameters:
+- `--param interface=<value>`
+- `--param resolution=4`
+- `--param resolution=6`
 
 ### `ping`
 
@@ -121,8 +126,11 @@ Optional parameters:
 ### `dump_traceroute`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api dump_traceroute
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api dump_traceroute --param hostname=<value>
 ```
+
+Optional parameters:
+- `--param interface=<value>`
 
 ### `dump_ifconfig`
 

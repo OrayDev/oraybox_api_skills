@@ -127,8 +127,15 @@ Optional parameters:
 ### `port_map_delete`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api port_map_delete
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api port_map_delete --param dest_ip=<value> --param dest_port=<value> --param proto=tcp
 ```
+
+Optional parameters:
+- `--param wan_name=<value>`
+- `--param hostname=<value>`
+- `--param src_port=<value>`
+- `--param 'map_list=<json>'`
+- `--param not_restart_net=<value>`
 
 ### `ip_bind_get`
 
