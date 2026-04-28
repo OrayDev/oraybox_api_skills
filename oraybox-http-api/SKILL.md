@@ -1,6 +1,6 @@
 ---
 name: oraybox-http-api
-version: 1.0.0
+version: 1.1.0
 description: >
   Python HTTP client for Oray router management APIs. Use when you need to
   interact with an Oray router via its HTTP API endpoint (/cgi-bin/oraybox).
@@ -82,30 +82,29 @@ This works for both Python API usage and CLI usage.
 API documentation is split by category in `references/`.  
 Read the relevant file when you need parameter details or examples for a specific domain.
 
-| Category | File | APIs |
-|----------|------|------|
-| System | [system.md](references/system.md) | sys_base_info, cpu_mem_get, system_status_get, sys_time_get/set, timezone_get/set, reboot, reset, passwd, upgrade_info_get, sys_upgrade_ex |
-| Network | [network.md](references/network.md) | interface_operate, dns_get/set, static_route_get/set, mtu_get/set, work_mode_get/set, interface_status_get, interface_dump, ether_status_get, interface_track_get/set |
-| DHCP | [dhcp.md](references/dhcp.md) | dhcp_get/set, dhcp_bind_get/set, hosts_get/set |
-| WiFi | [wifi.md](references/wifi.md) | wifi_get/set, wifi_scan_get, wifi_channels_get, wifi_disconnect_sta |
-| Port Forward | [port-forward.md](references/port-forward.md) | port_map_get/add/delete, ip_bind_get/set |
-| Device | [device.md](references/device.md) | lan_device_get, lan_device_alias_set, mac_control_get/set |
-| Diagnostics | [diagnostics.md](references/diagnostics.md) | dump_ping, ping, dump_traceroute, dump_ifconfig, dump_route, dump_ps, net_test |
-| Flowrate | [flowrate.md](references/flowrate.md) | flowrate_get, flowrate_ip_get, flowrate_wan_get |
-| Service Control | [service-control.md](references/service-control.md) | restart_service |
-| Behaviour | [behaviour.md](references/behaviour.md) | behaviour_get/set, behaviour_log_get/set/clear |
-| ACL | [acl.md](references/acl.md) | acl_get/set |
-| Group Support | [group-support.md](references/group-support.md) | group_get/set, group_reference_get/set |
-| MWAN3 | [mwan3.md](references/mwan3.md) | mwan_get/set, mwan_rules_get/set, interface_track_get/set, netstat_get, netstat_alarm_get/set |
-| Traffic Control | [traffic-control.md](references/traffic-control.md) | oraytc_get/set, group_tc_get/set |
-| DMZ | [dmz.md](references/dmz.md) | dmz_get, dmz_get_ex, dmz_set |
-| SNMP | [snmp.md](references/snmp.md) | snmp_get/set |
-| UPnP | [upnpd.md](references/upnpd.md) | upnpd_get/set |
-| App Traffic | [app-traffic.md](references/app-traffic.md) | app_traffic_get/set, app_traffic_upload_get/set |
-| USB File | [usb-file.md](references/usb-file.md) | usb_file_samba_get/get_ex/set, usb_file_format, usb_file_format_result, usb_label_set, usb_safe_remove |
-| Net Access Time | [net-access-time.md](references/net-access-time.md) | net_access_time_get/set |
-
-See [references/index.md](references/index.md) for the full error codes reference.
+| Category | File | APIs | Description |
+|----------|------|------|-------------|
+| System | [system.md](references/system.md) | sys_base_info, cpu_mem_get, system_status_get, sys_time_get/set, timezone_get/set, reboot, reset, passwd, upgrade_info_get, sys_upgrade_ex | Router system info, CPU/memory, time, timezone, reboot, reset, password, firmware upgrade |
+| Network | [network.md](references/network.md) | interface_operate, dns_get/set, static_route_get/set, mtu_get/set, work_mode_get/set, interface_status_get, interface_dump, ether_status_get, interface_track_get/set | WAN/LAN interface config, DNS, static routes, MTU, work mode, interface status |
+| DHCP | [dhcp.md](references/dhcp.md) | dhcp_get/set, dhcp_bind_get/set, hosts_get/set | DHCP server settings, static IP bindings, host management |
+| WiFi | [wifi.md](references/wifi.md) | wifi_get/set, wifi_scan_get, wifi_channels_get, wifi_disconnect_sta | WiFi settings, scan, channels, disconnect clients |
+| Port Forward | [port-forward.md](references/port-forward.md) | port_map_get/add/delete, ip_bind_get/set | Port mapping, DMZ-like IP binding |
+| Device | [device.md](references/device.md) | lan_device_get, lan_device_alias_set, mac_control_get/set | LAN device list, device alias, MAC access control |
+| Diagnostics | [diagnostics.md](references/diagnostics.md) | dump_ping, ping, dump_traceroute, dump_ifconfig, dump_route, dump_ps, net_test | Ping, traceroute, network/interface diagnostics |
+| Flowrate | [flowrate.md](references/flowrate.md) | flowrate_get, flowrate_ip_get, flowrate_wan_get | Real-time flow rate statistics |
+| Service Control | [service-control.md](references/service-control.md) | restart_service | Service restart control |
+| Behaviour | [behaviour.md](references/behaviour.md) | behaviour_get/set, behaviour_log_get/set/clear | Network behaviour monitoring and logging |
+| ACL | [acl.md](references/acl.md) | acl_get/set | Access control list (firewall rules) |
+| Group Support | [group-support.md](references/group-support.md) | group_get/set, group_reference_get/set | IP/group management and reference |
+| MWAN3 | [mwan3.md](references/mwan3.md) | mwan_get/set, mwan_rules_get/set, interface_track_get/set, netstat_get, netstat_alarm_get/set | Multi-WAN load balancing and failover |
+| Traffic Control | [traffic-control.md](references/traffic-control.md) | oraytc_get/set, group_tc_get/set | QoS/bandwidth shaping and rate limiting |
+| DMZ | [dmz.md](references/dmz.md) | dmz_get, dmz_get_ex, dmz_set | DMZ host configuration |
+| SNMP | [snmp.md](references/snmp.md) | snmp_get/set | SNMP service configuration |
+| UPnP | [upnpd.md](references/upnpd.md) | upnpd_get/set | UPnP port mapping service |
+| App Traffic | [app-traffic.md](references/app-traffic.md) | app_traffic_get/set, app_traffic_upload_get/set | Per-application traffic monitoring |
+| TFS | [tfs.md](references/tfs.md) | tfs_one_day_get | 24-hour traffic flow statistics for sub-devices |
+| USB File | [usb-file.md](references/usb-file.md) | usb_file_samba_get/get_ex/set, usb_file_format, usb_file_format_result, usb_label_set, usb_safe_remove | USB storage, Samba share, format, safe remove |
+| Net Access Time | [net-access-time.md](references/net-access-time.md) | net_access_time_get/set | Time-based network access control |
 
 ## Response Format
 
@@ -119,11 +118,21 @@ The router returns JSON:
 }
 ```
 
-- `code=0` — success
-- `code≠0` — error (see error codes in references/index.md)
-
 The client raises `OrayboxHttpAPIError` on HTTP failures, JSON decode errors,
 or when `code != 0`.
+
+### Common Error Codes
+
+| Code | Meaning | When it happens |
+|------|---------|-----------------|
+| 0 | Success | Request completed successfully |
+| 1 | Internal error | Router internal processing failure |
+| 2 | API not exist | The `_api` name is not recognized by the router |
+| 3 | No API specified | Missing `_api` field in the request |
+| 4 | Wrong password | Admin password (`_pwd`) is incorrect or missing |
+| 100 | Invalid arguments | Parameter format error, missing required param, or value out of range |
+
+See [references/errorcode.md](references/errorcode.md) for the full error codes reference.
 
 ## CLI Usage
 
@@ -161,7 +170,7 @@ python3 scripts/oraybox_http_api.py \
     --api cpu_mem_get
 ```
 
-See [references/index.md](references/index.md) for per-API CLI examples.
+See the individual category reference files under `references/` for per-API CLI examples.
 
 ## WiFi Configuration Notes
 
