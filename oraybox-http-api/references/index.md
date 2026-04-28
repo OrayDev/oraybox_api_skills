@@ -70,7 +70,7 @@ Every request must include the form fields `_api` (API name) and `_pwd` (admin p
 The Python script can be run directly as a CLI tool:
 
 ```bash
-python3 scripts/oraybox_http_api.py     --host 192.168.1.1     --password admin     --api sys_base_info
+python3 scripts/oraybox_http_api.py     --host 192.168.1.1         --api sys_base_info
 ```
 
 ### Global CLI Flags

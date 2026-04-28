@@ -133,11 +133,11 @@ Use the script directly from the command line:
 ### `snmp_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api snmp_get
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api snmp_get
 ```
 
 ### `snmp_set`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api snmp_set --param 'info={"key":"value"}'
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api snmp_set --param 'info={"key":"value"}'
 ```

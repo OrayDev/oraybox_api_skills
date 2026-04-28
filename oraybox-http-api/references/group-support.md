@@ -123,13 +123,13 @@ Use the script directly from the command line:
 ### `group_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api group_get --param grp_type=ip
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api group_get --param grp_type=ip
 ```
 
 ### `group_set`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api group_set --param optype=1 --param grp_type=ip
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api group_set --param optype=1 --param grp_type=ip
 ```
 
 Optional parameters:
@@ -140,11 +140,11 @@ Optional parameters:
 ### `group_reference_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api group_reference_get --param grp_type=ip --param grp_index=<value>
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api group_reference_get --param grp_type=ip --param grp_index=<value>
 ```
 
 ### `group_reference_set`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api group_reference_set --param cmd=del --param grp_type=<value> --param grp_index=<value>
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api group_reference_set --param cmd=del --param grp_type=<value> --param grp_index=<value>
 ```

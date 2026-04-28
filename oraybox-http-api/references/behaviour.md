@@ -151,13 +151,13 @@ Use the script directly from the command line:
 ### `behaviour_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api behaviour_get
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api behaviour_get
 ```
 
 ### `behaviour_set`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api behaviour_set --param optype=1
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api behaviour_set --param optype=1
 ```
 
 Optional parameters:
@@ -169,7 +169,7 @@ Optional parameters:
 ### `behaviour_log_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api behaviour_log_get
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api behaviour_log_get
 ```
 
 Optional parameters:
@@ -182,11 +182,11 @@ Optional parameters:
 ### `behaviour_log_set`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api behaviour_log_set --param http_enabled=1
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api behaviour_log_set --param http_enabled=1
 ```
 
 ### `behaviour_log_clear`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api behaviour_log_clear
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api behaviour_log_clear
 ```

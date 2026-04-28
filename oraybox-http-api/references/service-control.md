@@ -114,22 +114,22 @@ Flush connection tracking:
 
 Restart WiFi:
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api restart_service --param name=wifi
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api restart_service --param name=wifi
 ```
 
 Reload firewall:
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api restart_service --param name=firewall
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api restart_service --param name=firewall
 ```
 
 Restart WAN interface:
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api restart_service --param name=iface --param res=wan
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api restart_service --param name=iface --param res=wan
 ```
 
 Kick all wireless clients:
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api restart_service --param name=lan_wireless
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api restart_service --param name=lan_wireless
 ```
 
 Optional parameters:

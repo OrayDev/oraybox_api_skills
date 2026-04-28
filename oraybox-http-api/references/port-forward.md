@@ -108,13 +108,13 @@ Use the script directly from the command line:
 ### `port_map_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api port_map_get
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api port_map_get
 ```
 
 ### `port_map_add`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api port_map_add --param hostname=<value> --param proto=tcp --param dest_ip=<value> --param dest_port=1
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api port_map_add --param hostname=<value> --param proto=tcp --param dest_ip=<value> --param dest_port=1
 ```
 
 Optional parameters:
@@ -127,19 +127,19 @@ Optional parameters:
 ### `port_map_delete`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api port_map_delete
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api port_map_delete
 ```
 
 ### `ip_bind_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api ip_bind_get
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api ip_bind_get
 ```
 
 ### `ip_bind_set`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api ip_bind_set --param op=1
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api ip_bind_set --param op=1
 ```
 
 Optional parameters:

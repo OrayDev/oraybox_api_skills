@@ -231,13 +231,13 @@ Use the script directly from the command line:
 ### `oraytc_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api oraytc_get
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api oraytc_get
 ```
 
 ### `oraytc_set`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api oraytc_set
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api oraytc_set
 ```
 
 Optional parameters:
@@ -250,13 +250,13 @@ Optional parameters:
 ### `group_tc_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api group_tc_get --param grp_name=<value>
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api group_tc_get --param grp_name=<value>
 ```
 
 ### `group_tc_set`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api group_tc_set --param optype=1 --param grp_name=<value>
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api group_tc_set --param optype=1 --param grp_name=<value>
 ```
 
 Optional parameters:

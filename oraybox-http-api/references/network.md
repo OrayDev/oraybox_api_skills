@@ -520,7 +520,7 @@ Use the script directly from the command line:
 ### `interface_operate`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api interface_operate --param op=add --param name=<value>
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api interface_operate --param op=add --param name=<value>
 ```
 
 Optional parameters:
@@ -532,13 +532,13 @@ Optional parameters:
 ### `dns_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api dns_get
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api dns_get
 ```
 
 ### `dns_set`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api dns_set
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api dns_set
 ```
 
 Optional parameters:
@@ -551,13 +551,13 @@ Optional parameters:
 ### `static_route_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api static_route_get
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api static_route_get
 ```
 
 ### `static_route_set`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api static_route_set --param op=1 --param interface=<value> --param target=<value>
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api static_route_set --param op=1 --param interface=<value> --param target=<value>
 ```
 
 Optional parameters:
@@ -568,13 +568,13 @@ Optional parameters:
 ### `mtu_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api mtu_get
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api mtu_get
 ```
 
 ### `mtu_set`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api mtu_set
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api mtu_set
 ```
 
 Optional parameters:
@@ -585,13 +585,13 @@ Optional parameters:
 ### `work_mode_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api work_mode_get
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api work_mode_get
 ```
 
 ### `work_mode_set`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api work_mode_set --param mode=0
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api work_mode_set --param mode=0
 ```
 
 Optional parameters:
@@ -600,19 +600,19 @@ Optional parameters:
 ### `interface_status_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api interface_status_get
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api interface_status_get
 ```
 
 ### `interface_dump`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api interface_dump
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api interface_dump
 ```
 
 ### `ether_status_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api ether_status_get
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api ether_status_get
 ```
 
 Optional parameters:
@@ -621,7 +621,7 @@ Optional parameters:
 ### `interface_track_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api interface_track_get
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api interface_track_get
 ```
 
 Optional parameters:
@@ -630,7 +630,7 @@ Optional parameters:
 ### `interface_track_set`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api interface_track_set --param interface=<value>
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api interface_track_set --param interface=<value>
 ```
 
 Optional parameters:

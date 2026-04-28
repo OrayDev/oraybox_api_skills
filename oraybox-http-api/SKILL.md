@@ -14,23 +14,33 @@ description: >
 ## Overview
 
 Oray routers expose management APIs via HTTP POST to `/cgi-bin/oraybox`.
-Every call requires two form fields:
+Every call requires an `_api` field (the API name) and a `_pwd` field (the router
+admin password). When using the CLI, the password is read from the
+`ORAYBOX_PASSWORD` environment variable by default — you do **not** need to
+pass it explicitly unless the variable is not set.
 
-- `_api` — the API name (e.g., `sys_base_info`, `wifi_get`)
-- `_pwd` — the router admin panel password
-
-Additional parameters are API-specific.
+> **Agent guidance:** Do **not** ask the user for the router password before
+> attempting the first API call. Assume `ORAYBOX_HOST` and `ORAYBOX_PASSWORD`
+> are already configured in the environment. Only if the call fails with
+> `code=4` (authentication error) should you ask the user for the password.
 
 ## Requirements
 
-No external dependencies — uses only the Python standard library (`urllib`, `ssl`, `json`).
+- **Python**: 3.6 or newer
+- **Dependencies**: No external packages — uses only the Python standard library (`urllib`, `ssl`, `json`)
 
 ## Quick Start
+
+```bash
+# host and password use environment variables
+python3 scripts/oraybox_http_api.py --api sys_base_info
+```
 
 ```python
 from scripts.oraybox_http_api import OrayboxHttpAPI
 
-client = OrayboxHttpAPI(host="192.168.1.1", password="admin")
+# Password can be omitted when ORAYBOX_PASSWORD is set in the environment
+client = OrayboxHttpAPI(host="192.168.1.1")
 
 # Single API call
 info = client.call("sys_base_info")
@@ -45,15 +55,27 @@ results = client.call_batch([
 ])
 ```
 
+## Environment Variables
+
+The client reads the following environment variables when `host` or `password` are not provided explicitly:
+
+| Variable | Description | Explicit override |
+|----------|-------------|-------------------|
+| `ORAYBOX_HOST` | Router IP or hostname | `host=` argument |
+| `ORAYBOX_PASSWORD` | Router admin password | `password=` argument |
+
+This works for both Python API usage and CLI usage.
+
 ## Client Parameters
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `host` | str | required | Router IP or hostname |
-| `password` | str | required | Admin panel password |
+| `host` | str | `$ORAYBOX_HOST` | Router IP or hostname. Falls back to `ORAYBOX_HOST` env var when omitted |
+| `password` | str | `$ORAYBOX_PASSWORD` | Admin panel password. Falls back to `ORAYBOX_PASSWORD` env var when omitted |
 | `timeout` | int | 30 | HTTP timeout in seconds |
 | `scheme` | str | "http" | URL scheme: "http" or "https" |
 | `verify_ssl` | bool | False | Verify SSL certificates |
+| `use_proxy` | bool | False | Use system HTTP/HTTPS proxy |
 
 ## API Categories
 
@@ -110,44 +132,32 @@ The script can also be run directly from the command line:
 ```bash
 python3 scripts/oraybox_http_api.py \
     --host 192.168.1.1 \
-    --password admin \
     --api sys_base_info
 ```
-
-### CLI Parameters
-
-| Flag | Required | Default | Description |
-|------|----------|---------|-------------|
-| `--host` | yes | — | Router IP address or hostname |
-| `--password` | yes | — | Admin panel password |
-| `--api` | yes | — | API name to call |
-| `--param` | no | — | API parameter as `key=value`. Can be used multiple times. For JSON values, wrap the whole argument in quotes. |
-| `--timeout` | no | 30 | HTTP timeout in seconds |
-| `--https` | no | false | Use HTTPS instead of HTTP |
 
 ### CLI Examples
 
 Simple parameter:
 ```bash
 python3 scripts/oraybox_http_api.py \
-    --host 192.168.1.1 --password admin \
+    --host 192.168.1.1 \
     --api wifi_get --param dev=2.4G --param tag=1
 ```
 
 JSON parameter (shell-quoted):
 ```bash
 python3 scripts/oraybox_http_api.py \
-    --host 192.168.1.1 --password admin \
+    --host 192.168.1.1 \
     --api interface_operate \
     --param 'op=add' \
     --param 'name=wan3' \
     --param 'info={"mod":"dhcp"}'
 ```
 
-HTTPS with custom timeout:
+Pass password on the command line (when not using environment variables):
 ```bash
 python3 scripts/oraybox_http_api.py \
-    --host 192.168.1.1 --password admin --https --timeout 60 \
+    --host 192.168.1.1 --password admin \
     --api cpu_mem_get
 ```
 

@@ -224,7 +224,7 @@ Use the script directly from the command line:
 ### `wifi_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api wifi_get
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api wifi_get
 ```
 
 Optional parameters:
@@ -235,7 +235,7 @@ Optional parameters:
 
 **New firmware (with `feature` in wifi_get response):**
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin \
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 \
   --api wifi_set --param dev=2.4G --param switch=1 --param htmode=HT40 \
   --param channel=0 --param level=3 --param pattern=0 --param country=CN \
   --param 'ssid_list=[{"ssid":"MyWiFi","pwd":"12345678","encryption":"psk2+ccmp"}]'
@@ -243,7 +243,7 @@ python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin \
 
 **Older firmware (without `feature`):**
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin \
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 \
   --api wifi_set --param dev=2.4G --param switch=1 --param htmode=HT40 \
   --param channel=0 --param level=3 --param pattern=0 --param country=CN \
   --param 'ssid_list=[{"ssid":"MyWiFi","pwd":"12345678","encrypt":"psk2+ccmp"}]'
@@ -257,7 +257,7 @@ Optional parameters:
 ### `wifi_scan_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api wifi_scan_get
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api wifi_scan_get
 ```
 
 Optional parameters:
@@ -266,13 +266,13 @@ Optional parameters:
 ### `wifi_channels_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api wifi_channels_get --param dev=2.4G
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api wifi_channels_get --param dev=2.4G
 ```
 
 ### `wifi_disconnect_sta`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api wifi_disconnect_sta --param mac=<value>
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api wifi_disconnect_sta --param mac=<value>
 ```
 
 Optional parameters:

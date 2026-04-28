@@ -253,19 +253,19 @@ Use the script directly from the command line:
 ### `usb_file_samba_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api usb_file_samba_get
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api usb_file_samba_get
 ```
 
 ### `usb_file_samba_get_ex`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api usb_file_samba_get_ex
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api usb_file_samba_get_ex
 ```
 
 ### `usb_file_samba_set`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api usb_file_samba_set --param share_enabled=<value>
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api usb_file_samba_set --param share_enabled=<value>
 ```
 
 Optional parameters:
@@ -276,19 +276,19 @@ Optional parameters:
 ### `usb_file_format`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api usb_file_format --param device=<value>
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api usb_file_format --param device=<value>
 ```
 
 ### `usb_file_format_result`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api usb_file_format_result
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api usb_file_format_result
 ```
 
 ### `usb_label_set`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api usb_label_set --param device=<value>
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api usb_label_set --param device=<value>
 ```
 
 Optional parameters:
@@ -297,7 +297,7 @@ Optional parameters:
 ### `usb_safe_remove`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api usb_safe_remove
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api usb_safe_remove
 ```
 
 Optional parameters:

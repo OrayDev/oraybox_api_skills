@@ -266,13 +266,13 @@ Use the script directly from the command line:
 ### `mwan_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api mwan_get
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api mwan_get
 ```
 
 ### `mwan_set`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api mwan_set --param mode=multiwan
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api mwan_set --param mode=multiwan
 ```
 
 Optional parameters:
@@ -282,13 +282,13 @@ Optional parameters:
 ### `mwan_rules_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api mwan_rules_get
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api mwan_rules_get
 ```
 
 ### `mwan_rules_set`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api mwan_rules_set --param 'rules=["value1","value2"]'
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api mwan_rules_set --param 'rules=["value1","value2"]'
 ```
 
 Optional parameters:
@@ -297,7 +297,7 @@ Optional parameters:
 ### `interface_track_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api interface_track_get
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api interface_track_get
 ```
 
 Optional parameters:
@@ -306,7 +306,7 @@ Optional parameters:
 ### `interface_track_set`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api interface_track_set --param interface=<value>
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api interface_track_set --param interface=<value>
 ```
 
 Optional parameters:
@@ -329,19 +329,19 @@ Optional parameters:
 ### `netstat_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api netstat_get
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api netstat_get
 ```
 
 ### `netstat_alarm_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api netstat_alarm_get
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api netstat_alarm_get
 ```
 
 ### `netstat_alarm_set`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api netstat_alarm_set --param enable=1
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api netstat_alarm_set --param enable=1
 ```
 
 Optional parameters:

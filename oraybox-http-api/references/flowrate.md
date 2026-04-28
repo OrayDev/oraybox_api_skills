@@ -51,17 +51,17 @@ Use the script directly from the command line:
 ### `flowrate_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api flowrate_get
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api flowrate_get
 ```
 
 ### `flowrate_ip_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api flowrate_ip_get
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api flowrate_ip_get
 ```
 
 ### `flowrate_wan_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api flowrate_wan_get
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api flowrate_wan_get
 ```

@@ -90,13 +90,13 @@ Use the script directly from the command line:
 ### `acl_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api acl_get
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api acl_get
 ```
 
 ### `acl_set`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --password admin --api acl_set --param op=1
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api acl_set --param op=1
 ```
 
 Optional parameters:
