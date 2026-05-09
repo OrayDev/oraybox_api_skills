@@ -1,11 +1,11 @@
 ---
 name: oraybox-http-api
-version: 1.1.2
+version: 1.1.3
 description: >
   Python HTTP client for Oray router management APIs. Use when you need to
   interact with an Oray router via its HTTP API endpoint (/cgi-bin/oraybox).
-  Covers system info, network config, WiFi, DHCP, port forwarding, traffic
-  control, diagnostics, and more. Typical triggers: "call router api",
+  Covers system info, network config, WiFi, DHCP, port forwarding, VPN,
+  traffic control, diagnostics, and more. Typical triggers: "call router api",
   "get router status", "configure router wifi", "oraybox api http".
 ---
 
@@ -101,6 +101,9 @@ Read the relevant file when you need parameter details or examples for a specifi
 | DMZ | [dmz.md](references/dmz.md) | dmz_get, dmz_get_ex, dmz_set | DMZ host configuration |
 | SNMP | [snmp.md](references/snmp.md) | snmp_get/set | SNMP service configuration |
 | UPnP | [upnpd.md](references/upnpd.md) | upnpd_get/set | UPnP port mapping service |
+| VPN (Oray) | [oray_vpn.md](references/oray_vpn.md) | vpn_get/set, vpn_visitors_get/set, vpn_reboot_get/set, vpn_p2p_port_get/set, vpn_forward_get/set, bridge_forward, dump_vpn_dbginfo | Intelligent networking (智能组网) status, config, access control, P2P port, forwarding |
+| External VPN | [external-vpn.md](references/external-vpn.md) | pptp_get/set, l2tp_get/set, ipsec_get/set, ipsec_status_get | Third-party VPN tunnels: PPTP, L2TP, IPSec |
+| Bypass | [bypass.md](references/bypass.md) | bypass_alarm_get/set, vpn_route_get/set, vpn_route_get_ex/set_ex, full_bypass_get/set | VPN bypass route management and full bypass configuration |
 | App Traffic | [app-traffic.md](references/app-traffic.md) | app_traffic_get/set, app_traffic_upload_get/set | Per-application traffic monitoring |
 | TFS | [tfs.md](references/tfs.md) | tfs_one_day_get | 24-hour traffic flow statistics for sub-devices |
 | USB File | [usb-file.md](references/usb-file.md) | usb_file_samba_get/get_ex/set, usb_file_format, usb_file_format_result, usb_label_set, usb_safe_remove | USB storage, Samba share, format, safe remove |
