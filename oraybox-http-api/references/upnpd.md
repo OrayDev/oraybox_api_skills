@@ -50,8 +50,7 @@ Set UPnP configuration
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `enabled` | string | Yes | Enable UPnP: 0=off, 1=on  
-(Values: 0 | 1) |
+| `enabled` | string | Yes | Enable UPnP. Only `"0"` disables; any other value enables |
 | `external_iface` | string | No | External interface (default: wan) |
 
 ### Returns

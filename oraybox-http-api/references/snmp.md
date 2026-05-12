@@ -17,7 +17,7 @@ None
 
 ### Returns
 
-> info{enabled, port, version, syslocation, syscontact, sysname, [v2c_fields], [v3_fields], frequency, upload}
+> code, info{enabled, port, version, syslocation, syscontact, sysname, [v2c_fields], [v3_fields], frequency, upload}
 
 ### Details
 
@@ -108,9 +108,15 @@ SNMP Configuration JSON Format:
     }
     
   Security Levels:
-    noauthnopriv - No authentication, no privacy (username only)
+    noauthnopriv - No authentication, no privacy (username only). **Note:** this value is NOT written to UCI; only "authnopriv" and "authpriv" are handled
     authnopriv   - Authentication only (username + auth password)
     authpriv     - Authentication + privacy (username + auth + encryption)
+
+  Effective Requirements:
+    - When `enabled=1`, `port` is effectively Required
+    - For v2c, `community` and `access` are effectively Required (missing causes UCI error)
+    - For v3, `username` and `access` are effectively Required (missing causes UCI error)
+    - `frequency` must be a number
     
   Examples:
     Enable SNMPv2c:

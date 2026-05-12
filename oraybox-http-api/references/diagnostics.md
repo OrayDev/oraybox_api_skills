@@ -57,7 +57,7 @@ Get interface config
 
 ### Parameters
 
-> [interface=<iface>]
+> (interface parameter is ignored; always returns full ifconfig)
 
 ### Returns
 
@@ -93,11 +93,11 @@ Test network connectivity
 
 ### Parameters
 
-> [host=<host>] [count=<n>]
+> (host and count parameters are ignored; always pings hard-coded IPs)
 
 ### Returns
 
-> result
+> code, sn
 
 ## CLI Examples
 

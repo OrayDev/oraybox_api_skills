@@ -21,11 +21,11 @@ Get 24-hour traffic statistics for sub-devices. Returns hourly traffic breakdown
 
 #### When `total_only=1`
 
-> code, datas[](ip, send_bytes, recv_bytes)
+> code, datas[](ip, send_bytes, recv_bytes, [send_bytes_str, recv_bytes_str])
 
 #### Normal mode (hourly breakdown)
 
-> code, datas[](ip, traffic[](time, send_bytes, recv_bytes))
+> code, datas[](ip, traffic[](time, send_bytes, recv_bytes, [send_bytes_str, recv_bytes_str]))
 
 ### Details
 
@@ -38,6 +38,8 @@ Get 24-hour traffic statistics for sub-devices. Returns hourly traffic breakdown
       ip           - Device IP address
       send_bytes   - Total upload traffic (bytes), float type
       recv_bytes   - Total download traffic (bytes), float type
+      send_bytes_str - Human-readable upload string (SQLite-based implementations only)
+      recv_bytes_str - Human-readable download string (SQLite-based implementations only)
 
   Response Fields (normal mode):
     datas[]        - Array of per-device traffic data
@@ -46,6 +48,8 @@ Get 24-hour traffic statistics for sub-devices. Returns hourly traffic breakdown
         time       - Timestamp (HH:MM:SS format)
         send_bytes - Upload traffic for this time slot (bytes), float type
         recv_bytes - Download traffic for this time slot (bytes), float type
+        send_bytes_str - Human-readable upload string (SQLite-based implementations only)
+        recv_bytes_str - Human-readable download string (SQLite-based implementations only)
 
   Notes:
     Multicast address 239.255.255.250 is excluded from results

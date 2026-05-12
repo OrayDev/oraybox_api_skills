@@ -27,7 +27,7 @@ None
 
 ### Returns
 
-> sn, ver_main, ver_sub, ver_revision, ver_type, os_run_time, wan_if, wan_ip, wan_mask, wan_mac, wan2_if, wan2_ip, wan2_mask, wan2_mac, public_ip, conn_devs_count, machine, machine_display, wan_mode, wan2_mode, wan_gw, wan2_gw
+> sn, ver_main, ver_sub, ver_revision, ver_type, os_run_time, wan_if, wan_ip, wan_mask, wan_mac, wan2_if, wan2_ip, wan2_mask, wan2_mac, public_ip, conn_devs_count, machine, machine_display, wan_mode, wan2_mode, wan_gw, wan2_gw, develop_id
 
 ## `cpu_mem_get`
 
@@ -118,7 +118,9 @@ Reboot system
 
 ### Parameters
 
-None
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `not_reboot` | string | No | Set to `"1"` to skip reboot |
 
 ### Returns
 
@@ -146,10 +148,11 @@ Change admin password
 |------|------|----------|-------------|
 | `old_pwd` | string | Yes | Current admin password |
 | `new_pwd` | string | Yes | New admin password (min 6 characters) |
+| `prompt` | string | No | Prompt string |
 
 ### Returns
 
-> code
+> code, init_code
 
 ## `upgrade_info_get`
 
@@ -180,6 +183,7 @@ Upgrade firmware
 (Values: 0 | 1) |
 | `reset` | integer | No | Factory reset after upgrade: 0=no, 1=yes  
 (Values: 0 | 1) |
+| `upgrade_type` | string | No | Upgrade method: `"sysupgrade"` or `"mtd"` (default: `"sysupgrade"`) |
 
 ### Returns
 
@@ -271,3 +275,4 @@ Optional parameters:
 - `--param file_name=<value>`
 - `--param use_https=<value>`
 - `--param reset=<value>`
+- `--param upgrade_type=<value>`

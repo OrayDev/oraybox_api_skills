@@ -19,7 +19,7 @@ None
 
 ### Returns
 
-> config{base, total_shaping, shaping_list[], group_shaping[], auto_shaping, wan_shaping{}}
+> config{base, total_shaping, shaping_list[], group_shaping[], auto_shaping, wan_shaping{}} *(wan_shaping{} is 21.02 only)*
 
 ### Details
 
@@ -30,7 +30,7 @@ Traffic Control Configuration:
     shaping_list   - Per-IP/Group shaping rules[]
     group_shaping  - Group-based shaping rules[]
     auto_shaping   - Auto-adjustment shaping settings
-    wan_shaping    - Per-WAN interface shaping
+    wan_shaping    - Per-WAN interface shaping (21.02 only)
 ```
 
 ## SDK Version Differences (17.01 vs 21.02)
@@ -69,6 +69,7 @@ Traffic Control Configuration:
 |--------|----------------------|----------------------|
 | **`interface`** | Written to UCI if provided | **No longer persisted** |
 | **`priority`** | Written to UCI if provided | **No longer persisted** |
+| **`weekday`/`timestart`/`timestop`** | Native time fields | 21.02 source still accepts these fields (backward compatible) |
 
 ## `oraytc_set`
 

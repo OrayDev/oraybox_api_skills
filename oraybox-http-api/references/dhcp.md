@@ -21,7 +21,7 @@ Get DHCP configuration
 
 ### Returns
 
-> switch, ip_start, ip_end, rent_time, rent_users[] (mac, ip, hostname, time, alias)
+> switch, ip_start, ip_end, rent_time, rent_users[] (mac, ip, name, time, alias)
 
 ## `dhcp_set`
 
@@ -45,7 +45,7 @@ None
 
 ### Returns
 
-> leases[] (mac, ip, name)
+> code, data[] (mac, ip, name), arp_sync_switch
 
 ## `dhcp_bind_set`
 
@@ -57,11 +57,11 @@ Set DHCP static leases
 |------|------|----------|-------------|
 | `op` | integer | Yes | Operation: 1=add, 2=edit, 3=delete  
 (Values: 1 | 2 | 3) |
-| `hostname` | string | No | Device name (required for add/edit) |
-| `ip` | string | No | IP address to bind (required for add/edit/delete)  
+| `ip` | string | Yes | IP address to bind  
 (Format: x.x.x.x) |
-| `mac` | string | No | MAC address (required for add/edit/delete)  
+| `mac` | string | Yes | MAC address  
 (Format: AA:BB:CC:DD:EE:FF) |
+| `hostname` | string | No | Device name (required for add/edit) |
 | `new_hostname` | string | No | New device name (required for edit) |
 | `new_ip` | string | No | New IP address (required for edit)  
 (Format: x.x.x.x) |
@@ -84,7 +84,7 @@ None
 
 ### Returns
 
-> hosts[]
+> hosts_data[]
 
 ## `hosts_set`
 
@@ -92,7 +92,10 @@ Set hosts entries
 
 ### Parameters
 
-> hosts=<json_array>
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `hosts_data` | string | Yes | Hosts entries as JSON array string |
+| `type` | string | No | Operation: `"0"` = append/replace, other = delete |
 
 ### Returns
 
@@ -153,5 +156,5 @@ python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api hosts_get
 ### `hosts_set`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api hosts_set --param 'hosts=<json_array>'
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api hosts_set --param 'hosts_data=<json_array>'
 ```

@@ -218,8 +218,7 @@ Safely remove USB device
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `force` | integer | No | Force unmount even if busy: 0=normal, 1=force  
-(Values: 0 | 1) |
+| `force` | string | No | Force unmount even if busy. Any non-zero numeric string enables force mode (uses `tonumber(...) ~= 0`) |
 
 ### Returns
 

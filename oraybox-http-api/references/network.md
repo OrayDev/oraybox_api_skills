@@ -197,8 +197,8 @@ Set DNS servers
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `dns` | string | No | Primary DNS server IP |
-| `backup_dns` | string | No | Backup DNS server IP |
+| `dns` | string | No | Primary DNS server IP. If empty or omitted, resets DNS |
+| `backup_dns` | string | No | Backup DNS server IP. Must differ from `dns` to be set |
 | `interface` | string | No | Interface to set DNS for (default: lan) |
 | `no_restart_network` | integer | No | Skip network restart (legacy param)  
 (Values: 0 | 1) |
@@ -215,11 +215,14 @@ Get static routes
 
 ### Parameters
 
-None
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `page_length` | integer | No | Number of items per page |
+| `page_choose` | integer | No | Page number to query |
 
 ### Returns
 
-> routes[]
+> code, data[], interfaces[], page_count
 
 ## `static_route_set`
 
@@ -250,11 +253,13 @@ Get MTU settings
 
 ### Parameters
 
-None
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `interface` | string | No | Interface name (default: `lan`) |
 
 ### Returns
 
-> mtu_wan, mtu_lan
+> code, mtu
 
 ## `mtu_set`
 
@@ -283,7 +288,7 @@ None
 
 ### Returns
 
-> mode (router|ap|bridge)
+> mode (numeric string: "0" | "1" | "2" | "3")
 
 ## `work_mode_set`
 
@@ -311,7 +316,7 @@ Get interface status
 
 ### Returns
 
-> status, speed, duplex
+> Per-interface nested object with keys: `ip`, `mask`, `mac`, `gw`, `dns`, `connected_ssid`, `connected_bssid`, `signal`, `quality`, `quality_max`, `signal_percent` (WiFi relay fields when applicable)
 
 ## `interface_dump`
 
@@ -381,7 +386,7 @@ Get ethernet port status
 
 ### Returns
 
-> ether_status{wan{}, lan{}}, ether_capability{port{speed}}
+> ether_status{wan{interface_name{}}, lan{interface_name{}}}, ether_capability{port{speed}}
 
 ### Details
 

@@ -18,7 +18,7 @@ None
 
 ### Returns
 
-> code, ip, enable, ip2, enable2
+> code, {wan: {ip, enable}, wan2: {ip, enable}, oray_vnc: {ip, enable}}
 
 ## `dmz_get_ex`
 
@@ -30,7 +30,7 @@ None
 
 ### Returns
 
-> code, ip, enable, ip<N>, enable<N>, ip_oray_vnc, enable_oray_vnc
+> code, {wan: {ip, enable}, wan2: {ip, enable}, oray_vnc: {ip, enable}, ...}
 
 ### Details
 
@@ -39,10 +39,8 @@ DMZ Configuration:
     Exposes all ports of a LAN device to the WAN
     
   Response Fields:
-    ip, enable          - Primary WAN DMZ settings
-    ip<N>, enable<N>    - Additional WAN interfaces (ip2, enable2, etc.)
-    ip_oray_vnc         - VPN network DMZ IP
-    enable_oray_vnc     - VPN network DMZ enabled
+    Nested per-interface objects, e.g. {wan: {ip, enable}, wan2: {ip, enable}, oray_vnc: {ip, enable}}
+    Each interface key maps to an object with `ip` and `enable` fields.
 ```
 
 ## `dmz_set`
@@ -53,7 +51,7 @@ Set DMZ configuration
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `wan_name` | string | Yes | WAN interface name (e.g., wan, wan2) or 'oray_vnc' for VPN |
+| `wan_name` | string | No | WAN interface name (e.g., wan, wan2) or 'oray_vnc' for VPN (default: wan) |
 | `dest_ip` | string | No | LAN IP address for DMZ host  
 (Format: x.x.x.x) |
 | `enable` | string | No | Enable DMZ (string boolean)  

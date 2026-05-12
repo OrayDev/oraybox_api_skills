@@ -24,7 +24,11 @@ None
 
 ### Returns
 
-> mode (multiwan|backupwan), [order], interface weights
+> mode (multiwan|backupwan), [order], [interface weights]
+
+  Response Details:
+    multiwan  - Returns `mode` and interface weights
+    backupwan - Returns only `mode` and `order` (no interface weights)
 
 ## `mwan_set`
 
@@ -34,10 +38,10 @@ Set MWAN3 multi-WAN configuration
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `mode` | string | Yes | MWAN mode: multiwan=load balance, backupwan=failover  
+| `mode` | string | No | MWAN mode: multiwan=load balance, backupwan=failover. Defaults to "multiwan"  
 (Values: multiwan | backupwan) |
-| `rules` | json | No | For multiwan: object with interface names as keys and weights (0-100) as values |
-| `order` | json_array | No | For backupwan: ordered array of interfaces by priority |
+| `rules` | json | No | For multiwan: **Required** in multiwan mode. Object with interface names as keys and weights (0-100) as values |
+| `order` | json_array | No | For backupwan: **Required** in backupwan mode. Ordered array of interfaces by priority |
 
 ### Returns
 
@@ -83,9 +87,9 @@ Set MWAN3 policy routing rules
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `op` | string | No | Operation: 0=set all, 1=add, 2=delete, 3=set ISP IP rules  
-(Values: 0 | 1 | 2 | 3) |
-| `rules` | json_array | Yes | Array of MWAN rules |
+| `op` | string | No | Operation: missing=set all, `'1'`=add, `'2'`=delete, `'3'`=set ISP IP rules. Note: `op='0'` does NOT match any branch  
+(Values: 1 | 2 | 3) |
+| `rules` | json / json_array | Yes | Array of MWAN rules. For `op='3'` (ISP IP rules), provide a single JSON **object** `{name, ipset, ...}` instead of an array |
 
 ### Returns
 
@@ -182,10 +186,10 @@ MWAN3 Link Tracking Configuration:
     track_ip         - Array of IPs to monitor (e.g., ["223.5.5.5", "8.8.8.8"])
     reliability      - How many track IPs must be reachable to consider link up
     failure_loss     - Packet loss % to trigger down state
-    recovery_loss    - Packet loss % to recover to up state
+    recovery_loss    - Packet loss % to recover to up state (NOT actually read from args — source bug)
     failure_latency  - Latency (ms) threshold to trigger down state
-    recovery_latency - Latency (ms) threshold to recover to up state
-    down/up          - Consecutive test counts before state change
+    recovery_latency - Latency (ms) threshold to recover to up state (NOT actually read from args — source bug)
+    down/up          - Consecutive test counts before state change (NOT actually read from args — source bug)
     
   Examples:
     Basic ping tracking:
@@ -201,7 +205,9 @@ Get network detection status
 
 ### Parameters
 
-> [interface=<iface>]
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `interface` | string | No | Interface name to query (e.g., wan, wan2). If omitted, returns all WAN interfaces |
 
 ### Returns
 
@@ -228,7 +234,7 @@ Set network status alarm configuration
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `ifnames` | json_array | No | Array of WAN interface names to configure (default: [\ |
-| `enable` | integer | Yes | Enable network status alarm  
+| `enable` | integer | No | Enable network status alarm  
 (Values: 0 | 1) |
 | `iface_conn_state_enable` | integer | No | Enable interface connection state monitoring  
 (Values: 0 | 1) |
@@ -251,6 +257,9 @@ Network Status Alarm:
     global - Default configuration for all interfaces
     <iface> - Per-interface configuration (overrides global)
     
+  Constraints:
+    `latency_alarm_high_threshold` must be >= `latency_alarm_low_threshold`
+
   Examples:
     Enable global alarm:
       {"_api":"netstat_alarm_set","ifnames":"[\\"global\\"]","enable":1,"latency_alarm_enable":1,"latency_alarm_high_threshold":200,"latency_alarm_low_threshold":100}

@@ -25,7 +25,7 @@ Get WiFi configuration
 
 ### Returns
 
-> switch, level(1-3), htmode, channel, country, ssid, pattern(0=single/1=multi), hidden, pwd, encryption, isolation, sta_isolation, maxassoc, ssid_list[] (multi-SSID mode)
+> switch, level(1-3), htmode, channel, country, ssid, pattern(0=single/1=multi), hidden, pwd, encryption, isolation, sta_isolation, maxassoc, dot_is_show, phymode, is_in_sta_mode, coloring, ldpc, lofdm, twt, ieee80211k, ieee80211v, ieee80211r, rssiroaming, feature{wdevs[]}, ssid_list[] (multi-SSID mode)
 
 ## `wifi_set`
 
@@ -41,6 +41,7 @@ Set WiFi configuration
 (Values: 0 | 1) |
 | `htmode` | string | Yes | HT mode (e.g., HT20, HT40, VHT40, VHT80) |
 | `channel` | integer | Yes | WiFi channel number (0 or auto for auto-selection) |
+| `phymode` | integer | No | MTK WirelessMode value |
 | `level` | integer | Yes | Signal strength level: 1=low, 2=medium, 3=high  
 (Values: 1 | 2 | 3) |
 | `pattern` | integer | Yes | SSID mode: 0=single SSID, 1=multi-SSID  
@@ -156,7 +157,7 @@ Scan WiFi networks
 
 ### Returns
 
-> networks[] (ssid, signal, encryption, channel)
+> wifi_scan[] (2.4G list), wifi_scan_5g[] (5G list). Each item: mac, mode, quality, quality_max, signal, ssid, channel, encryption
 
 ## `wifi_channels_get`
 
@@ -166,8 +167,8 @@ Get available channels
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `dev` | string | Yes | WiFi band to query channels for  
-(Values: 2.4G | 5G) |
+| `band` | string | Yes | Band to query: "0"=2.4G, "1"=5G |
+| `country` | string | No | Country code for regulatory domain |
 
 ### Returns
 
@@ -183,8 +184,7 @@ Disconnect WiFi client
 |------|------|----------|-------------|
 | `mac` | string | Yes | MAC address of the client to disconnect  
 (Format: AA:BB:CC:DD:EE:FF) |
-| `dev` | string | No | WiFi band where the client is connected  
-(Values: 2.4G | 5G) |
+| `dev` | string | No | Ignored (parameter exists but is not used) |
 
 ### Returns
 
@@ -202,7 +202,7 @@ Disconnect WiFi client
 
 | Aspect | 17.01 (Firmware 6.x) | 21.02 (Firmware 7.x) |
 |--------|----------------------|----------------------|
-| **Returns** | `enable`, `ssidlist`, **`rules`** (array of `{id, weeks, start, ends, ssids}`) | `enable`, `ssidlist`, **`time_id`**, **`apply`** |
+| **Returns** | `enable`, `ssidlist`, **`rules`** (array of `{id, weeks, start, ends, ssids}`) | `enable`, `ssidlist`, **`time_id`** |
 | **SSID item fields** | `iface`, `ssid`, `band` | `iface`, `ssid`, `band`, **`apply`** (`"1"` if time_group assigned) |
 | **Data source** | `timer_rule` list per iface | `time_group` per iface |
 
@@ -213,6 +213,7 @@ Disconnect WiFi client
 | **Key params** | `enable`, `weeks`, `start`, `ends`, `action` (`add`/`modify`/`del`/`reset`), `id` | `enable`, `weeks`, `time_id`, `reload` |
 | **Removed** | `action`, `start`, `ends`, `id` | — |
 | **New** | — | `time_id` (references `group_time` config), `reload` (`"1"` to re-apply) |
+| **Extra params** | — | `ssids` (JSON array, No) OR `is_deploy` (string, No), `ssid-2.4g` (JSON array, No), `ssid-5g` (JSON array, No) |
 | **Time model** | Inline `start`/`ends`/`weeks` | Indirect via `group_time` (from `group_support` package) |
 | **Cross-day** | Not supported (`start` ≤ `ends`) | Supported (splits into two rules internally) |
 | **Rule ID** | `os.time()` timestamp | `group_time.id` |
@@ -266,7 +267,7 @@ Optional parameters:
 ### `wifi_channels_get`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api wifi_channels_get --param dev=2.4G
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api wifi_channels_get --param band=0
 ```
 
 ### `wifi_disconnect_sta`

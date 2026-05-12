@@ -115,7 +115,7 @@ Filter JSON format:
 
 ## `vpn_set`
 
-Set VPN parameters. Changes take effect after restarting the VPN service.
+Set VPN parameters. Automatically calls `restart_orayboxvpn()` after applying changes.
 
 ### Parameters
 
@@ -160,8 +160,8 @@ Visitor entry:
   }
 
 Action semantics:
-  accept  — Members in the list are blocked; members NOT in the list are allowed
-  refuse  — Members in the list are allowed; members NOT in the list are blocked
+  accept  — Members IN the list are ACCEPTED; members NOT in the list are refused
+  refuse  — Members IN the list are REFUSED; members NOT in the list are accepted
 ```
 
 ## `vpn_visitors_set`
@@ -175,7 +175,7 @@ Configure VPN visitor access control. Supports enabling/disabling the feature an
 | `switch` | string | No | Enable access control: `1`=on, `0`=off. Required when setting base config |
 | `action` | string | No | Default action: `accept` or `refuse`. Required when setting base config |
 | `op` | string | No | Operation: `1`=add, `2`=edit, `3`=delete |
-| `name` | string | No | Host name. Required when `op` is 1, 2, or 3 |
+| `name` | string | No | Host name. Required when `op` is 1 or 2 |
 | `ip` | string | No | Host IP address. Required when `op` is 1, 2, or 3 |
 | `mac` | string | No | Host MAC address. Required when `op` is 1, 2, or 3 |
 
@@ -197,8 +197,8 @@ None
 |------|------|-------------|
 | `code` | integer | Error code |
 | `enabled` | string | Scheduled reboot enabled: `1`=on, `0`=off |
-| `hour` | string | Hour (0–23) |
-| `minute` | string | Minute (0–59) |
+| `hour` | string | Hour (0–23). **Absent when `enabled=0`** |
+| `minute` | string | Minute (0–59). **Absent when `enabled=0`** |
 | `day` | string | Day of month (1–31), `0` means every day. **Only present when `enabled=1`** |
 | `month` | string | Month (1–12), `0` means every month. **Only present when `enabled=1`** |
 | `week` | string | Week days as JSON array string, e.g. `[1,2,3,4,5,6,0]`. `0`=Sunday. **Only present when `enabled=1`** |
@@ -307,7 +307,7 @@ Get or set bridge layer-2 forwarding mask. Controls whether the bridge forwards 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `action` | string | Yes | Operation: `get` or `set` |
-| `enable` | string | No | Enable forwarding: `1`=on, `0`=off. Required when `action=set` |
+| `enable` | string | No | Enable forwarding: `1`=on, `0`=off. Defaults to `1`; any value other than `0` enables forwarding |
 
 ### Returns
 

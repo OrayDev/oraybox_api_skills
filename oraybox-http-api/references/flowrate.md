@@ -14,11 +14,15 @@ Get flow rate statistics
 
 ### Parameters
 
-None
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `dimension` | string | No | Dimension to query: "iface" or "ip" |
+| `iface_list` | string | No | Interface list to query (default: "wan") |
+| `ip_list` | string | No | IP list to query (when dimension="ip") |
 
 ### Returns
 
-> rates[]
+> code, data[] (iface, down, up)
 
 ## `flowrate_ip_get`
 
@@ -26,11 +30,11 @@ Get flow rate by IP
 
 ### Parameters
 
-> [ip=<ip>]
+None
 
 ### Returns
 
-> rate
+> code, lan_data[] (ip, down, up)
 
 ## `flowrate_wan_get`
 
@@ -42,7 +46,7 @@ None
 
 ### Returns
 
-> upload, download
+> wifi_up, wifi_down, lan_up, lan_down, has_eth, has_wifi, plus dynamic per-WAN fields (<wan_name>_up, <wan_name>_down)
 
 ## CLI Examples
 

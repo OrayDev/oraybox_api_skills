@@ -17,7 +17,8 @@ None
 
 ### Returns
 
-> rules[] (type, time_group, src_ip_group, dst_ip_group, src_port, dst_port, proto, action, input, output, enabled, idx, priority)
+> 17.01: `rules[]` (`type`, `weekday`, `src_grp_names`, `dst_grp_names`, `src_list`, `dst_list`, `daytime_list[]`, `traffic_type`, `support_traffic_type`)
+> 21.02: `rules[]` (`type`, `time_group`, `src_ip_group`, `dst_ip_group`, `src_port`, `dst_port`, `proto`, `action`, `input`, `output`, `enabled`, `idx`, `priority`)
 
 ## `acl_set`
 
@@ -39,7 +40,7 @@ Set ACL rules
 ### Details
 
 ```
-ACL Rule JSON Format:
+ACL Rule JSON Format (21.02):
     {
       "class": "base",                   // Rule class (default: base)
       "src_ip_group": "<group_name>",    // Source IP group name
@@ -53,6 +54,22 @@ ACL Rule JSON Format:
       "output": "<interface>",           // Output interface
       "enabled": 1,                      // Enable rule: 0=disabled, 1=enabled
       "priority": 10                     // Rule priority (higher = higher priority)
+    }
+
+  17.01 Rule JSON Format:
+    {
+      "class": "base",
+      "src_grp_names": "group1,group2",  // Source group names
+      "dst_grp_names": "group1,group2",  // Destination group names
+      "src_list": "192.168.1.0/24",      // Source IP list
+      "dst_list": "10.0.0.0/24",         // Destination IP list
+      "weekday": "Mon,Tue,Wed,Thu,Fri",  // Weekdays
+      "daytime_list": ["09:00-18:00"],   // Daytime list
+      "traffic_type": "input|output|forward",  // Traffic type
+      "proto": "all|tcp|udp|icmp|gre",
+      "action": "accept|drop",
+      "enabled": 1,
+      "priority": 10
     }
     
   Examples:

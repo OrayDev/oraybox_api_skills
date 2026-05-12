@@ -32,7 +32,7 @@ Add port mapping rule
 |------|------|----------|-------------|
 | `hostname` | string | Yes | Rule name/description |
 | `proto` | string | Yes | Protocol(s) to forward  
-(Values: tcp | udp | tcp udp | tcp/udp) |
+(Values: tcp | udp | tcp udp) |
 | `dest_ip` | string | Yes | Destination IP address (internal host)  
 (Format: x.x.x.x) |
 | `dest_port` | integer | Yes | Destination port number  
@@ -72,7 +72,7 @@ None
 
 ### Returns
 
-> bindings[]
+> arp_list[] (host, grp_name, dev, attribute), dhcp_sync_switch
 
 ## `ip_bind_set`
 
@@ -82,20 +82,24 @@ Set IP-MAC binding
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `op` | integer | Yes | Operation: 1=add, 2=edit, 3=delete  
+| `op` | integer | Yes | Operation: 1=add, 2=delete, 3=modify  
 (Values: 1 | 2 | 3) |
-| `hostname` | string | No | Device name (required for add) |
-| `ip` | string | No | IP address to bind (required for add/edit/delete)  
+| `host` | string | No | Device name |
+| `ip` | string | No | IP address to bind  
 (Format: x.x.x.x) |
-| `mac` | string | No | MAC address (required for add/edit/delete)  
+| `mac` | string | No | MAC address  
 (Format: AA:BB:CC:DD:EE:FF) |
-| `new_hostname` | string | No | New device name (required for edit) |
-| `new_ip` | string | No | New IP address (required for edit)  
+| `dev` | string | No | Device/interface |
+| `attribute` | string | No | Attribute flag |
+| `grp_name` | string | No | Group name |
+| `old_ip` | string | No | Old IP address (for modify)  
 (Format: x.x.x.x) |
-| `new_mac` | string | No | New MAC address (required for edit)  
+| `old_mac` | string | No | Old MAC address (for modify)  
 (Format: AA:BB:CC:DD:EE:FF) |
-| `arp_sync_switch` | integer | No | Enable ARP binding sync with static leases  
+| `old_dev` | string | No | Old device/interface (for modify) |
+| `dhcp_sync_switch` | integer | No | Enable DHCP sync with static leases  
 (Values: 0 | 1) |
+| `batch` | json_array | No | Batch operations (JSON array) |
 
 ### Returns
 
@@ -150,10 +154,14 @@ python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api ip_bind_set --param
 ```
 
 Optional parameters:
-- `--param hostname=<value>`
+- `--param host=<value>`
 - `--param ip=<value>`
 - `--param mac=<value>`
-- `--param new_hostname=<value>`
-- `--param new_ip=<value>`
-- `--param new_mac=<value>`
-- `--param arp_sync_switch=<value>`
+- `--param dev=<value>`
+- `--param attribute=<value>`
+- `--param grp_name=<value>`
+- `--param old_ip=<value>`
+- `--param old_mac=<value>`
+- `--param old_dev=<value>`
+- `--param dhcp_sync_switch=<value>`
+- `--param 'batch=<json>'`

@@ -20,7 +20,8 @@ None
 
 ### Returns
 
-> rules[] (type, ip_group, mac_group, dns_group, time_group)
+> 17.01: `user_groups` + `rules[]` (`type`, `weekday`, `address_list`, `user_groups`, `daytime_list[]`)
+> 21.02: `rules[]` (`type`, `ip_group`, `mac_group`, `dns_group`, `time_group`)
 
 ## `behaviour_set`
 
@@ -35,8 +36,6 @@ Set behaviour management rules and user groups
 | `grp_name` | string | No | Group name (required for optype 1-3) |
 | `addr_list` | json_array | No | Address list for user group (required for optype 1-2) |
 | `rules` | json_array | No | Behaviour rules JSON array (required for optype 4) |
-| `merge` | string | No | Merge mode for user group edit: 1=merge existing, 0=replace  
-(Values: 0 | 1) |
 
 ### Returns
 
@@ -48,13 +47,23 @@ Set behaviour management rules and user groups
 Behaviour Management Rules:
     Controls network access behaviour based on user groups, time groups, and DNS groups
     
-  Rule JSON Format:
+  Rule JSON Format (21.02):
     {
       "list_type": "white" or "black",        // White list or black list
       "ip_group": "<group_name>",        // IP group name
       "mac_group": "<group_name>",       // MAC group name (optional)
       "dns_group": "<group_name>",       // DNS group name
       "time_group": "<group_name>"       // Time group name
+    }
+
+  17.01 Rule JSON Format:
+    {
+      "grp_names": "group1,group2",      // User group names
+      "visit_list": "site1,site2",       // Visit list (DNS groups)
+      "weekday": "Mon,Tue,Wed,Thu,Fri",  // Weekdays
+      "timestart": "09:00",              // Start time
+      "timestop": "18:00",               // Stop time
+      "daytime_list": ["09:00-18:00"]    // Daytime list
     }
     
   Examples:
@@ -164,7 +173,6 @@ Optional parameters:
 - `--param grp_name=<value>`
 - `--param 'addr_list=<json>'`
 - `--param 'rules=<json>'`
-- `--param merge=<value>`
 
 ### `behaviour_log_get`
 

@@ -22,7 +22,7 @@ Get user groups (IP/MAC/DNS/Time groups)
 
 ### Returns
 
-> data[] (name, remark, id, val, use_times, [week, range_val])
+> code, data[] (name, remark, id, val, use_times, enable_del, [week, range_val])
 
 ### Details
 
@@ -38,7 +38,8 @@ Group Types:
     remark     - Group description
     id         - Unique group identifier
     val        - Group values (array of IPs/MACs/Domains/Time slots)
-    use_times  - Number of rules referencing this group
+    use_times  - Number of rules referencing this group. Number for non-time groups, string for time groups
+    enable_del - For time groups: whether deletion is allowed ("0" or "1")
     week       - For time groups: weekdays (e.g., "Mon,Tue,Wed")
     range_val  - For DNS groups: domain range values
 ```
@@ -81,6 +82,10 @@ Group Data JSON Format (for edit):
   For Time groups, also include:
       "week": "Mon,Tue,Wed",        // Weekdays
       "val": ["09:00-18:00"]        // Time slots
+
+  Load mode (`optype=load`):
+    Expects `grp_data` as `{"groups": [...]}` (array of group objects).
+    Does NOT support `time` groups.
 ```
 
 ## `group_reference_get`
@@ -98,6 +103,9 @@ Get group reference information
 ### Returns
 
 > code, data[] (rule_type, count)
+
+  Response Fields:
+    count  - Reference count (returned as string)
 
 ## `group_reference_set`
 
@@ -129,7 +137,7 @@ python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api group_get --param g
 ### `group_set`
 
 ```bash
-python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api group_set --param optype=1 --param grp_type=ip
+python3 scripts/oraybox_http_api.py --host 192.168.1.1 --api group_set --param optype=edit --param grp_type=ip
 ```
 
 Optional parameters:

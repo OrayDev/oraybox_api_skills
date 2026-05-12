@@ -1,6 +1,6 @@
 ---
 name: oraybox-http-api
-version: 1.1.3
+version: 1.1.4
 description: >
   Python HTTP client for Oray router management APIs. Use when you need to
   interact with an Oray router via its HTTP API endpoint (/cgi-bin/oraybox).
@@ -87,9 +87,9 @@ Read the relevant file when you need parameter details or examples for a specifi
 | System | [system.md](references/system.md) | sys_base_info, cpu_mem_get, system_status_get, sys_time_get/set, timezone_get/set, reboot, reset, passwd, upgrade_info_get, sys_upgrade_ex | Router system info, CPU/memory, time, timezone, reboot, reset, password, firmware upgrade |
 | Network | [network.md](references/network.md) | interface_operate, dns_get/set, static_route_get/set, mtu_get/set, work_mode_get/set, interface_status_get, interface_dump, ether_status_get, interface_track_get/set | WAN/LAN interface config, DNS, static routes, MTU, work mode, interface status |
 | DHCP | [dhcp.md](references/dhcp.md) | dhcp_get/set, dhcp_bind_get/set, hosts_get/set | DHCP server settings, static IP bindings, host management |
-| WiFi | [wifi.md](references/wifi.md) | wifi_get/set, wifi_scan_get, wifi_channels_get, wifi_disconnect_sta | WiFi settings, scan, channels, disconnect clients |
+| WiFi | [wifi.md](references/wifi.md) | wifi_get/set, wifi_scan_get, wifi_channels_get, wifi_disconnect_sta, wifi_timer_get/set | WiFi settings, scan, channels, disconnect clients, timer scheduling |
 | Port Forward | [port-forward.md](references/port-forward.md) | port_map_get/add/delete, ip_bind_get/set | Port mapping, DMZ-like IP binding |
-| Device | [device.md](references/device.md) | lan_device_get, lan_device_alias_set, mac_control_get/set | LAN device list, device alias, MAC access control |
+| Device | [device.md](references/device.md) | lan_device_get, lan_device_alias_set, mac_control_get/set, mac_control_set_ex | LAN device list, device alias, MAC access control |
 | Diagnostics | [diagnostics.md](references/diagnostics.md) | dump_ping, ping, dump_traceroute, dump_ifconfig, dump_route, dump_ps, net_test | Ping, traceroute, network/interface diagnostics |
 | Flowrate | [flowrate.md](references/flowrate.md) | flowrate_get, flowrate_ip_get, flowrate_wan_get | Real-time flow rate statistics |
 | Service Control | [service-control.md](references/service-control.md) | restart_service | Service restart control |
